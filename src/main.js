@@ -725,11 +725,6 @@ const renderMerci = () => {
 
             let finalData = { ...pending };
             if (withUpsell) {
-                // --- Row 1: main product (sent as-is, original price + code) ---
-                submitOrderToSheet(finalData);
-
-                // --- Row 2: upsell product (same order_id, own price + code) ---
-                // GAS will group both rows by order_id → 1 COD Africa order, 2 items, correct prices
                 const upsellRow = {
                     nom: pending.nom,
                     telephone: pending.telephone,
@@ -742,10 +737,16 @@ const renderMerci = () => {
                     platform: pending.platform || 'GitHubPages',
                     order_id: pending.order_id,   // ← same order_id links both rows
                     code: upsellProduct.code || '',
-                    status: 'UPSELL_ITEM',      // ← GAS skips direct COD Africa submit for this row
+                    status: 'UPSELL_ITEM',        // ← GAS skips direct COD Africa submit for this row
                     currency: pending.currency,
                 };
+
+                // Send UPSELL_ITEM row FIRST so it exists in the sheet before the COMPLETED
+                // row triggers GAS — avoids the race condition where GAS finds no child rows.
                 submitOrderToSheet(upsellRow);
+
+                // Wait 2.5 s then send the main (COMPLETED) row which triggers the GAS search
+                setTimeout(() => submitOrderToSheet(finalData), 2500);
             } else {
                 submitOrderToSheet(finalData);
             }
