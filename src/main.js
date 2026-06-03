@@ -725,22 +725,31 @@ const renderMerci = () => {
 
             let finalData = { ...pending };
             if (withUpsell) {
-                // Combine both products into one order
-                const combinedTitle = `${pending.produit} + ${upsellProduct.title}`;
-                const combinedTotal = parseInt(pending.total_raw || 0) + upsellPrice;
-                finalData.produit = combinedTitle;
-                finalData.prix = combinedTotal + ' ' + currency;
-                finalData.quantity = parseInt(pending.quantity) + 1;
-                // Encode both item codes/qty/prices for GAS to build a 2-item COD Africa order
-                // Format: CODE_MAIN:QTY_MAIN:PRICE_MAIN|CODE_UPSELL:1:UPSELL_PRICE
-                const mainCode = pending.code || '';
-                const mainQty = parseInt(pending.quantity) || 1;
-                const mainPrice = parseInt(pending.total_raw) || 0;
-                const upsellCode = upsellProduct.code || '';
-                finalData.code = `${mainCode}:${mainQty}:${mainPrice}|${upsellCode}:1:${upsellPrice}`;
+                // --- Row 1: main product (sent as-is, original price + code) ---
+                submitOrderToSheet(finalData);
+
+                // --- Row 2: upsell product (same order_id, own price + code) ---
+                // GAS will group both rows by order_id → 1 COD Africa order, 2 items, correct prices
+                const upsellRow = {
+                    nom:      pending.nom,
+                    telephone: pending.telephone,
+                    pays:     pending.pays,
+                    adresse:  pending.adresse,
+                    produit:  upsellProduct.title,
+                    prix:     upsellPrice + ' ' + currency,
+                    total_raw: upsellPrice,
+                    quantity: 1,
+                    platform: pending.platform || 'GitHubPages',
+                    order_id: pending.order_id,   // ← same order_id links both rows
+                    code:     upsellProduct.code || '',
+                    status:   'UPSELL_ITEM',      // ← GAS skips direct COD Africa submit for this row
+                    currency: pending.currency,
+                };
+                submitOrderToSheet(upsellRow);
+            } else {
+                submitOrderToSheet(finalData);
             }
 
-            submitOrderToSheet(finalData);
             localStorage.removeItem('pending_order');
 
             // Update the thank you card to reflect combined order
