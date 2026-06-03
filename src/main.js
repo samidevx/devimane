@@ -160,6 +160,15 @@ const router = () => {
     app.className = ''; // Reset classes
     document.body.classList.remove('lp-mode-active', 'is-merci-page');
 
+    // --- SAFETY NET: submit any abandoned pending order older than 5 min ---
+    try {
+        const pending = JSON.parse(localStorage.getItem('pending_order') || 'null');
+        if (pending && (Date.now() - pending.timestamp) > 5 * 60 * 1000) {
+            submitOrderToSheet(pending);
+            localStorage.removeItem('pending_order');
+        }
+    } catch(e) {}
+
     // --- ADMIN ROUTES ---
     if (path.startsWith('/admin')) {
         if (path === '/admin/login') {
@@ -631,25 +640,122 @@ const renderProduct = (p) => {
     }
 };
 
+// Reusable: POST an order object to Google Sheets
+const submitOrderToSheet = (data) => {
+    const fd = new FormData();
+    const skip = new Set(['timestamp','upsellProductId','upsellPrice','upsellTitle','customer_name','product_name','total','currency','hasUpsell']);
+    Object.entries(data).forEach(([k,v]) => { if (!skip.has(k)) fd.append(k, v); });
+    fetch(GOOGLE_SHEETS_WEBAPP_URL, { method:'POST', body:fd, mode:'no-cors', keepalive:true });
+};
+
 const renderMerci = () => {
     document.body.classList.add('is-merci-page');
-    const order = JSON.parse(sessionStorage.getItem('last_order') || '{}');
     const app = document.getElementById('app');
+
+    // Check for a pending upsell order first
+    const pending = JSON.parse(localStorage.getItem('pending_order') || 'null');
+    // Fall back to already-submitted order (no-upsell flow)
+    const order = pending || JSON.parse(sessionStorage.getItem('last_order') || '{}');
+
+    // --- Find upsell product if pending ---
+    let upsellProduct = null;
+    if (pending && pending.upsellProductId) {
+        const allProducts = adminUtils.getProducts();
+        upsellProduct = allProducts.find(pr => pr.id === pending.upsellProductId) || null;
+    }
+    const upsellPrice = (pending && pending.upsellPrice) ? parseInt(pending.upsellPrice) : (upsellProduct ? upsellProduct.price : 0);
+    const currency = order.currency || 'CFA';
+
     app.innerHTML = `
-        <div class="product-page fade-in" style="max-width: 500px; padding: 50px 20px;">
-            <div class="product-card" style="text-align: center; padding: 40px 20px;">
-                <div class="modal-ico green" style="margin-bottom: 20px;"><i class="fa fa-circle-check"></i></div>
-                <h1 style="font-family:var(--fh); margin-bottom: 10px;">MERCI ${order.customer_name || '!'}</h1>
-                <p style="color:var(--gray-600); margin-bottom: 30px;">Votre commande pour <strong>${order.product_name || 'votre produit'}</strong> a été reçue avec succès.</p>
-                <div class="order-summary" style="margin-top: 20px;">
+        <div class="product-page fade-in" style="max-width:520px; padding:40px 20px;">
+            <!-- Thank you card -->
+            <div class="product-card" style="text-align:center; padding:36px 24px;">
+                <div class="modal-ico green" style="margin-bottom:16px;"><i class="fa fa-circle-check"></i></div>
+                <h1 style="font-family:var(--fh); margin-bottom:8px;">MERCI ${order.customer_name || '!'}</h1>
+                <p style="color:var(--gray-600); margin-bottom:20px;">Votre commande pour <strong>${order.product_name || 'votre produit'}</strong> a été reçue avec succès.</p>
+                <div class="order-summary" style="margin-top:16px;">
                     <div class="sum-row"><span>Produit :</span> <span>${order.product_name} x ${order.quantity}</span></div>
-                    <div class="sum-row"><span>Total :</span> <span>${fmtPrice(order.total || 0)} CFA</span></div>
+                    <div class="sum-row"><span>Total :</span> <span>${fmtPrice(order.total || 0)} ${currency}</span></div>
                     <div class="sum-total"><span>Statut :</span> <span style="color:var(--green)">En cours</span></div>
                 </div>
-                <p style="font-size: 13px; color: var(--gray-400); margin-bottom: 30px;">Un conseiller vous contactera dans les plus brefs délais pour confirmer la livraison.</p>
+                <p style="font-size:13px; color:var(--gray-400); margin-top:16px;">Un conseiller vous contactera dans les plus brefs délais pour confirmer la livraison.</p>
             </div>
+
+            ${upsellProduct ? `
+            <!-- Upsell card -->
+            <div class="upsell-card" id="upsell-section">
+                <div class="upsell-badge">🎁 OFFRE EXCLUSIVE — Ajoutez-le à votre livraison !</div>
+                <div class="upsell-body">
+                    <img src="${optimizeBloggerImg(upsellProduct.featuredImage, 200)}" alt="${upsellProduct.title}" class="upsell-img">
+                    <div class="upsell-info">
+                        <div class="upsell-title">${upsellProduct.title}</div>
+                        <div class="upsell-prices">
+                            <span class="upsell-price-now">${fmtPrice(upsellPrice)} ${currency}</span>
+                            ${upsellProduct.price > upsellPrice ? `<span class="upsell-price-old">${fmtPrice(upsellProduct.price)} ${currency}</span>` : ''}
+                        </div>
+                        <div class="upsell-delivery"><i class="fa fa-truck" style="color:var(--green);"></i> Livraison groupée GRATUITE avec votre commande</div>
+                    </div>
+                </div>
+                <div class="upsell-timer-wrap"><i class="fa fa-clock" style="color:var(--orange);"></i> Offre expire dans <strong id="upsell-cd">1:30</strong></div>
+                <button class="upsell-btn-yes" id="btn-upsell-yes">
+                    <i class="fa fa-circle-plus"></i> Ajouter à ma commande — ${fmtPrice(upsellPrice)} ${currency}
+                </button>
+                <button class="upsell-btn-no" id="btn-upsell-no">Non merci, je ne veux pas cette offre</button>
+            </div>
+            ` : ''}
         </div>
     `;
+
+    // --- Upsell logic ---
+    if (upsellProduct && pending) {
+        let seconds = 90;
+        const cdEl = document.getElementById('upsell-cd');
+
+        const finalize = (withUpsell) => {
+            clearInterval(cdTimer);
+            const upsellSection = document.getElementById('upsell-section');
+            if (upsellSection) {
+                upsellSection.style.pointerEvents = 'none';
+                upsellSection.style.opacity = '0.5';
+            }
+
+            let finalData = { ...pending };
+            if (withUpsell) {
+                // Combine both products into one order
+                const combinedTitle = `${pending.produit} + ${upsellProduct.title}`;
+                const combinedTotal = parseInt(pending.total_raw || 0) + upsellPrice;
+                finalData.produit = combinedTitle;
+                finalData.prix = combinedTotal + ' ' + currency;
+                finalData.quantity = parseInt(pending.quantity) + 1;
+            }
+
+            submitOrderToSheet(finalData);
+            localStorage.removeItem('pending_order');
+
+            // Update the thank you card to reflect combined order
+            if (withUpsell && upsellSection) {
+                upsellSection.innerHTML = `
+                    <div style="text-align:center; padding:24px; color:var(--green);">
+                        <i class="fa fa-circle-check" style="font-size:32px; margin-bottom:10px;"></i>
+                        <div style="font-weight:700; font-size:16px;">Produit ajouté avec succès !</div>
+                        <div style="font-size:13px; color:var(--gray-500); margin-top:6px;">Les 2 produits seront livrés ensemble en un seul colis.</div>
+                    </div>`;
+            } else if (upsellSection) {
+                upsellSection.style.display = 'none';
+            }
+        };
+
+        const cdTimer = setInterval(() => {
+            seconds--;
+            if (cdEl) cdEl.textContent = `${Math.floor(seconds/60)}:${(seconds%60).toString().padStart(2,'0')}`;
+            if (seconds <= 0) finalize(false);
+        }, 1000);
+
+        document.getElementById('btn-upsell-yes').onclick = () => finalize(true);
+        document.getElementById('btn-upsell-no').onclick  = () => finalize(false);
+    } else if (!pending) {
+        // No pending order (normal no-upsell flow) — nothing extra needed
+    }
 };
 
 const renderFooter = () => `
@@ -858,6 +964,14 @@ const renderProductForm = (p = null) => {
                             <option value="no" ${!p?.socialPopup || p?.socialPopup === 'no' ? 'selected' : ''}>No</option>
                             <option value="yes" ${p?.socialPopup === 'yes' ? 'selected' : ''}>Yes</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Post-Order Upsell — Product ID</label>
+                        <input type="text" class="form-control" id="p-upsell" value="${p?.upsell || ''}" placeholder="e.g. robe-satin (leave empty to disable)">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upsell Special Price (optional)</label>
+                        <input type="number" class="form-control" id="p-upsellPrice" value="${p?.upsellPrice || ''}" placeholder="Leave empty = product's regular price">
                     </div>
                 </div>
 
@@ -1150,7 +1264,9 @@ const setupAdminEvents = () => {
                     }).filter(o => o.title);
                 })(),
                 description: document.getElementById('p-desc').value,
-                socialPopup: document.getElementById('p-socialPopup').value
+                socialPopup: document.getElementById('p-socialPopup').value,
+                upsell: document.getElementById('p-upsell').value.trim() || null,
+                upsellPrice: parseInt(document.getElementById('p-upsellPrice').value) || null
             };
             adminUtils.upsertProduct(formData);
             navigate('/admin/products');
@@ -1445,12 +1561,10 @@ const setupProductEvents = (p) => {
 
         const ok = await new Promise(res => {
             const modal = document.getElementById('modal-confirm');
-            // Update modal with CURRENT state (selected offer may have changed since render)
-            const modalTotal = finalTotal;
             const prodLabel = document.getElementById('modal-prod-label');
             const totalLabel = document.getElementById('modal-total-label');
             if (prodLabel) prodLabel.textContent = `${p.title} x ${state.quantity}`;
-            if (totalLabel) totalLabel.textContent = `${fmtPrice(modalTotal)} ${p.currency}`;
+            if (totalLabel) totalLabel.textContent = `${fmtPrice(finalTotal)} ${p.currency}`;
             modal.classList.add('open');
             document.getElementById('m-ok').onclick = () => { modal.classList.remove('open'); res(true); };
             document.getElementById('m-cancel').onclick = () => { modal.classList.remove('open'); res(false); };
@@ -1462,50 +1576,68 @@ const setupProductEvents = (p) => {
         btn.disabled = true;
         btn.innerHTML = 'Envoi... <span class="spinner"></span>';
 
-        const formData = new FormData();
-        formData.append("nom", document.getElementById('nom').value);
-        formData.append("telephone", document.getElementById('tel').value);
-        formData.append("pays", document.getElementById('pays').value);
-        formData.append("adresse", document.getElementById('adr').value);
-        formData.append("produit", p.title);
-        formData.append("prix", finalTotal + " " + p.currency);
-        formData.append("quantity", state.quantity);
-        formData.append("platform", "GitHubPages");
-        formData.append("order_id", state.cartSessionId);
-        formData.append("code", p.code || "");
-        formData.append("status", "COMPLETED");
-
+        const nom      = document.getElementById('nom').value;
+        const tel      = document.getElementById('tel').value;
+        const pays     = document.getElementById('pays').value;
+        const adresse  = document.getElementById('adr').value;
         const vCouleur = document.getElementById('var-couleur');
-        const vTaille = document.getElementById('var-taille');
-        if (vCouleur) formData.append("couleur", vCouleur.value);
-        if (vTaille) formData.append("taille", vTaille.value);
+        const vTaille  = document.getElementById('var-taille');
+        const utms     = getUTMParams();
 
-        const utms = getUTMParams();
-        Object.entries(utms).forEach(([k, v]) => formData.append(k, v));
+        // Build the base order object (used both paths)
+        const orderPayload = {
+            nom, telephone: tel, pays, adresse,
+            produit: p.title,
+            prix: finalTotal + ' ' + p.currency,
+            total_raw: finalTotal,
+            quantity: state.quantity,
+            platform: 'GitHubPages',
+            order_id: state.cartSessionId,
+            code: p.code || '',
+            status: 'COMPLETED',
+            currency: p.currency,
+            ...(vCouleur ? { couleur: vCouleur.value } : {}),
+            ...(vTaille  ? { taille:  vTaille.value  } : {}),
+            ...utms,
+            // Upsell metadata (stripped before sending to sheet)
+            timestamp: Date.now(),
+            hasUpsell: !!p.upsell,
+            upsellProductId: p.upsell || null,
+            upsellPrice: p.upsellPrice || null,
+            // For /merci display
+            customer_name: nom,
+            product_name: p.title,
+            total: finalTotal,
+        };
+
+        firePixel('Purchase', {
+            value: finalTotal,
+            currency: p.currency === 'CFA' ? 'XOF' : p.currency,
+            content_name: p.title,
+            content_ids: [p.code || window.location.pathname],
+            content_type: 'product',
+            num_items: state.quantity
+        });
 
         try {
-            // Use keepalive: true so the request completes even after navigation
-            fetch(GOOGLE_SHEETS_WEBAPP_URL, { method: "POST", body: formData, mode: "no-cors", keepalive: true });
-
-            firePixel('Purchase', {
-                value: finalTotal,
-                currency: p.currency === 'CFA' ? 'XOF' : p.currency,
-                content_name: p.title,
-                content_ids: [p.code || window.location.pathname],
-                content_type: 'product',
-                num_items: state.quantity
-            });
-            sessionStorage.setItem('last_order', JSON.stringify({
-                customer_name: document.getElementById('nom').value,
-                product_name: p.title,
-                quantity: state.quantity,
-                total: finalTotal
-            }));
-
-            // Redirect after a tiny delay to ensure everything is processed
-            setTimeout(() => {
-                window.location.pathname = '/merci';
-            }, 200);
+            if (p.upsell) {
+                // --- UPSELL PATH: hold order, decide after /merci ---
+                localStorage.setItem('pending_order', JSON.stringify(orderPayload));
+                // Also set session for the merci display
+                sessionStorage.setItem('last_order', JSON.stringify({
+                    customer_name: nom, product_name: p.title,
+                    quantity: state.quantity, total: finalTotal, currency: p.currency
+                }));
+                setTimeout(() => { window.location.pathname = '/merci'; }, 200);
+            } else {
+                // --- STANDARD PATH: submit immediately ---
+                submitOrderToSheet(orderPayload);
+                sessionStorage.setItem('last_order', JSON.stringify({
+                    customer_name: nom, product_name: p.title,
+                    quantity: state.quantity, total: finalTotal, currency: p.currency
+                }));
+                setTimeout(() => { window.location.pathname = '/merci'; }, 200);
+            }
         } catch (err) {
             btn.innerHTML = '❌ ÉCHEC, RÉESSAYER';
             btn.style.background = '#c81e1e';
