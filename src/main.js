@@ -437,7 +437,7 @@ const renderProduct = (p) => {
                                 <div class="bundle-hdr">🎁 Sélectionnez votre Offre</div>
                                 <div id="bundle-options">
                                     ${p.offres.map((o, i) => `
-                                        <div class="bundle-opt ${i === 0 ? 'active' : ''}" data-qty="${o.qty}" data-price="${o.price}" data-title="${o.title}">
+                                        <div class="bundle-opt ${i === 0 ? 'active' : ''}" data-qty="${o.qty}" data-price="${o.price}" data-old-price="${o.oldPrice}" data-title="${o.title}">
                                             <div class="bundle-radio"></div>
                                             <div class="bundle-opt-inner">
                                                 <div>
@@ -529,6 +529,10 @@ const renderProduct = (p) => {
                                 <div class="sum-row"><span>Prix du produit</span> <span>${fmtPrice(state.price)} ${p.currency}</span></div>
                                 <div class="sum-row"><span>Quantité</span> <span id="sum-qty">${state.quantity}</span></div>
                                 <div class="sum-row"><span>Prix de livraison</span> <span>Gratuit</span></div>
+                                <div class="sum-row sum-savings" id="sum-savings" style="display:none;">
+                                    <span>💰 Vous économisez</span>
+                                    <span id="sum-savings-amt" style="color:var(--green); font-weight:800;"></span>
+                                </div>
                                 <div class="sum-total">
                                     <span>Total général</span>
                                     <span id="sum-total">${fmtPrice(state.price)} ${state.currency}</span>
@@ -1484,6 +1488,30 @@ const setupProductEvents = (p) => {
         const priceRow = document.querySelector('.order-summary .sum-row:first-child span:last-child');
         if (priceRow) priceRow.innerText = fmtPrice(state.price) + ' ' + p.currency;
         if (document.getElementById('manual-qty')) document.getElementById('manual-qty').value = state.quantity;
+
+        // --- Savings callout ---
+        const savingsRow = document.getElementById('sum-savings');
+        const savingsAmt = document.getElementById('sum-savings-amt');
+        if (savingsRow && savingsAmt) {
+            let saving = 0;
+            if (state.isBundle) {
+                // Read oldPrice from the currently active bundle option
+                const activeOpt = document.querySelector('.bundle-opt.active');
+                if (activeOpt && activeOpt.dataset.oldPrice) {
+                    const oldPrice = parseInt(activeOpt.dataset.oldPrice);
+                    saving = oldPrice - state.price;
+                }
+            } else if (p.priceOld && p.priceOld > state.price) {
+                // Regular product with a crossed-out old price
+                saving = (p.priceOld - state.price) * state.quantity;
+            }
+            if (saving > 0) {
+                savingsAmt.innerText = fmtPrice(saving) + ' ' + p.currency + ' !';
+                savingsRow.style.display = 'flex';
+            } else {
+                savingsRow.style.display = 'none';
+            }
+        }
     };
 
     // --- BUNDLES ---

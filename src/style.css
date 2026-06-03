@@ -3029,3 +3029,17 @@ body.mode-nuit .bundle-hdr {
   background: var(--gray-100);
   border-color: var(--orange);
 }
+
+/* Savings callout row in order summary */
+.sum-savings {
+  background: var(--green-l);
+  border-radius: 8px;
+  padding: 8px 12px !important;
+  margin: 4px 0;
+  animation: fadeInUp .25s ease;
+}
+
+.sum-savings span:first-child {
+  color: var(--green);
+  font-weight: 600;
+}
