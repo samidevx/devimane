@@ -3,7 +3,7 @@ import productsData from './data/products.json';
 import { adminUtils } from './admin_utils.js';
 
 // --- CONFIG ---
-const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbznKkGs40ruRzRS_9BLM1ad-vtr74nReOX3GeSquxozxURKVtGiwYy-5pz1lj_gvWf85Q/exec";
+const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzj59Y-q72AN-MIdc7F92Yt866S_cQ1vJ2paYUTzlWZXQ42gVSEqdvbLOOI8Abd0P1Skg/exec";
 const COUNTRY_MAP = {
     "CI": "Côte d'Ivoire", "SN": "Sénégal", "BF": "Burkina Faso", "TG": "Togo", "BJ": "Bénin",
     "ML": "Mali", "GA": "Gabon", "CM": "Cameroun", "NE": "Niger", "CG": "Congo Brazzaville",
@@ -731,18 +731,18 @@ const renderMerci = () => {
                 // --- Row 2: upsell product (same order_id, own price + code) ---
                 // GAS will group both rows by order_id → 1 COD Africa order, 2 items, correct prices
                 const upsellRow = {
-                    nom:      pending.nom,
+                    nom: pending.nom,
                     telephone: pending.telephone,
-                    pays:     pending.pays,
-                    adresse:  pending.adresse,
-                    produit:  upsellProduct.title,
-                    prix:     upsellPrice + ' ' + currency,
+                    pays: pending.pays,
+                    adresse: pending.adresse,
+                    produit: upsellProduct.title,
+                    prix: upsellPrice + ' ' + currency,
                     total_raw: upsellPrice,
                     quantity: 1,
                     platform: pending.platform || 'GitHubPages',
                     order_id: pending.order_id,   // ← same order_id links both rows
-                    code:     upsellProduct.code || '',
-                    status:   'UPSELL_ITEM',      // ← GAS skips direct COD Africa submit for this row
+                    code: upsellProduct.code || '',
+                    status: 'UPSELL_ITEM',      // ← GAS skips direct COD Africa submit for this row
                     currency: pending.currency,
                 };
                 submitOrderToSheet(upsellRow);
