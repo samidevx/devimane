@@ -45,6 +45,29 @@ const getUTMParams = () => {
     };
 };
 
+// Reads phone (and optionally name) pre-filled by Facebook Ads via URL params.
+// Supported params: ?tel=, ?phone=, ?telephone=, ?numero=
+// Also supports ?nom= for name pre-fill.
+// Values are persisted in sessionStorage so they survive same-session navigation.
+const getLeadFromURL = () => {
+    const p = new URLSearchParams(window.location.search);
+    const phoneKeys = ['tel', 'phone', 'telephone', 'numero', 'phone_number'];
+    let phone = '';
+    for (const key of phoneKeys) {
+        if (p.has(key) && p.get(key).trim()) {
+            phone = p.get(key).trim();
+            break;
+        }
+    }
+    if (phone) sessionStorage.setItem('lead_phone', phone);
+    const nom = p.get('nom') || p.get('name') || p.get('prenom') || '';
+    if (nom) sessionStorage.setItem('lead_nom', nom.trim());
+    return {
+        phone: phone || sessionStorage.getItem('lead_phone') || '',
+        nom: nom || sessionStorage.getItem('lead_nom') || ''
+    };
+};
+
 const firePixel = (event, data) => {
     if (typeof fbq === 'function') fbq('track', event, data);
 };
@@ -829,6 +852,13 @@ const renderProductForm = (p = null) => {
                             <option value="yes" ${p?.showQuantity === 'yes' ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label class="form-label">Social Proof Popup? 🔥</label>
+                        <select class="form-control" id="p-socialPopup">
+                            <option value="no" ${!p?.socialPopup || p?.socialPopup === 'no' ? 'selected' : ''}>No</option>
+                            <option value="yes" ${p?.socialPopup === 'yes' ? 'selected' : ''}>Yes</option>
+                        </select>
+                    </div>
                 </div>
 
                 <h3 style="margin-top:40px; margin-bottom:20px; font-family:var(--fh);">Variants & Popups</h3>
@@ -1119,7 +1149,8 @@ const setupAdminEvents = () => {
                         return { qty, price, oldPrice, title };
                     }).filter(o => o.title);
                 })(),
-                description: document.getElementById('p-desc').value
+                description: document.getElementById('p-desc').value,
+                socialPopup: document.getElementById('p-socialPopup').value
             };
             adminUtils.upsertProduct(formData);
             navigate('/admin/products');
@@ -1166,7 +1197,133 @@ const setupGlobalEvents = () => {
     }
 };
 
+// --- SOCIAL PROOF POPUPS ---
+const initSocialProof = (p) => {
+    // Rich pool of realistic West African names + cities
+    const LEADS = [
+        // Côte d'Ivoire
+        { name: 'Aminata K.', city: 'Abidjan', flag: '🇨🇮' },
+        { name: 'Kouassi M.', city: 'Bouaké', flag: '🇨🇮' },
+        { name: 'Awa T.', city: 'Daloa', flag: '🇨🇮' },
+        { name: 'Rosine B.', city: 'Yamoussoukro', flag: '🇨🇮' },
+        { name: 'Dramane S.', city: 'Korhogo', flag: '🇨🇮' },
+        { name: 'Edwige N.', city: 'San-Pédro', flag: '🇨🇮' },
+        { name: 'Pascal A.', city: 'Gagnoa', flag: '🇨🇮' },
+        // Sénégal
+        { name: 'Fatou D.', city: 'Dakar', flag: '🇸🇳' },
+        { name: 'Moussa N.', city: 'Thiès', flag: '🇸🇳' },
+        { name: 'Adja F.', city: 'Saint-Louis', flag: '🇸🇳' },
+        { name: 'Ousmane B.', city: 'Kaolack', flag: '🇸🇳' },
+        { name: 'Bintou S.', city: 'Ziguinchor', flag: '🇸🇳' },
+        // Cameroun
+        { name: 'Marie-Claire E.', city: 'Douala', flag: '🇨🇲' },
+        { name: 'Théodore M.', city: 'Yaoundé', flag: '🇨🇲' },
+        { name: 'Euphrasie T.', city: 'Bafoussam', flag: '🇨🇲' },
+        { name: 'Rodrigue N.', city: 'Garoua', flag: '🇨🇲' },
+        // Burkina Faso
+        { name: 'Salimata O.', city: 'Ouagadougou', flag: '🇧🇫' },
+        { name: 'Issouf K.', city: 'Bobo-Dioulasso', flag: '🇧🇫' },
+        { name: 'Mariam Z.', city: 'Koudougou', flag: '🇧🇫' },
+        // Mali
+        { name: 'Fatoumata C.', city: 'Bamako', flag: '🇲🇱' },
+        { name: 'Ibrahim D.', city: 'Sikasso', flag: '🇲🇱' },
+        { name: 'Kadiatou B.', city: 'Ségou', flag: '🇲🇱' },
+        // Togo
+        { name: 'Abiba A.', city: 'Lomé', flag: '🇹🇬' },
+        { name: 'Koffi M.', city: 'Sokodé', flag: '🇹🇬' },
+        // Bénin
+        { name: 'Bernadette H.', city: 'Cotonou', flag: '🇧🇯' },
+        { name: 'Aristide G.', city: 'Porto-Novo', flag: '🇧🇯' },
+        { name: 'Albertine L.', city: 'Parakou', flag: '🇧🇯' },
+        // Guinée
+        { name: 'Hawa C.', city: 'Conakry', flag: '🇬🇳' },
+        { name: 'Sékou B.', city: 'Kankan', flag: '🇬🇳' },
+        // Congo
+        { name: 'Nadia M.', city: 'Brazzaville', flag: '🇨🇬' },
+        { name: 'Marcel F.', city: 'Pointe-Noire', flag: '🇨🇬' },
+        // Gabon
+        { name: 'Fernand O.', city: 'Libreville', flag: '🇬🇦' },
+    ];
+
+    const TIMES = [
+        'il y a 2 min', 'il y a 4 min', 'il y a 7 min', 'il y a 11 min',
+        'il y a 15 min', 'il y a 18 min', 'il y a 23 min', 'il y a 1 heure',
+        'il y a 32 min', 'il y a 45 min', 'il y a 3 min', 'il y a 9 min'
+    ];
+
+    // Shuffle so order feels random each visit
+    const shuffled = [...LEADS].sort(() => Math.random() - 0.5);
+    let idx = 0;
+
+    // Inject the popup container into the DOM (fixed, bottom-left)
+    const popup = document.createElement('div');
+    popup.id = 'sp-popup';
+    popup.setAttribute('aria-live', 'polite');
+    popup.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(popup);
+
+    const showNext = () => {
+        const lead = shuffled[idx % shuffled.length];
+        const time = TIMES[Math.floor(Math.random() * TIMES.length)];
+        const initials = lead.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+        // Cycle through avatar background colors
+        const colors = ['#1a56db','#057a55','#c45200','#7c3aed','#be185d','#0e7490'];
+        const bg = colors[idx % colors.length];
+
+        popup.innerHTML = `
+            <div class="sp-avatar" style="background:${bg};">${initials}</div>
+            <div class="sp-body">
+                <div class="sp-name">${lead.flag} <strong>${lead.name}</strong> <span class="sp-city">· ${lead.city}</span></div>
+                <div class="sp-action">vient de commander <strong>${p.title}</strong></div>
+                <div class="sp-time"><i class="fa fa-clock"></i> ${time}</div>
+            </div>
+            <button class="sp-close" id="sp-close-btn" aria-label="Fermer">×</button>
+        `;
+        popup.classList.add('sp-visible');
+
+        document.getElementById('sp-close-btn').onclick = () => {
+            popup.classList.remove('sp-visible');
+        };
+
+        idx++;
+
+        // Auto-hide after 5s
+        setTimeout(() => popup.classList.remove('sp-visible'), 5000);
+    };
+
+    // First popup appears after 8 seconds, then every 35-65s
+    setTimeout(() => {
+        showNext();
+        setInterval(showNext, 35000 + Math.floor(Math.random() * 30000));
+    }, 8000);
+};
+
 const setupProductEvents = (p) => {
+    // --- PHONE / NAME PRE-FILL FROM URL ---
+    const lead = getLeadFromURL();
+    if (lead.phone) {
+        const telInput = document.getElementById('tel');
+        if (telInput && !telInput.value) {
+            telInput.value = lead.phone;
+            // Show a reassuring "detected" badge below the field
+            const badge = document.createElement('div');
+            badge.id = 'tel-detected-badge';
+            badge.innerHTML = '<i class="fa fa-circle-check" style="color:var(--green);font-size:13px;"></i> Numéro détecté automatiquement';
+            badge.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--green);margin-top:6px;animation:fadeInUp .3s ease;';
+            telInput.parentElement.appendChild(badge);
+            // Green border on the input to draw attention
+            telInput.style.borderColor = 'var(--green)';
+            telInput.style.boxShadow = '0 0 0 3px rgba(5,122,85,.12)';
+        }
+    }
+    if (lead.nom) {
+        const nomInput = document.getElementById('nom');
+        if (nomInput && !nomInput.value) nomInput.value = lead.nom;
+    }
+
+    // --- SOCIAL PROOF ---
+    if (p.socialPopup && p.socialPopup.toLowerCase() === 'yes') initSocialProof(p);
+
     // --- GALLERY ---
     if ((Array.isArray(p.gallery) && p.gallery.length > 0) || p.gallery === 'yes') {
         const images = [p.featuredImage, ...(Array.isArray(p.gallery) ? p.gallery : (p.images || []))];
