@@ -3,7 +3,7 @@ import productsData from './data/products.json';
 import { adminUtils } from './admin_utils.js';
 
 // --- CONFIG ---
-const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxa8D0w65CcXso3TaKuugijiwLk826xSJVQ4Ay5lS-9CzH3r06Wc6t-Bw8D_TOMNLAjIA/exec";
+const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbznKkGs40ruRzRS_9BLM1ad-vtr74nReOX3GeSquxozxURKVtGiwYy-5pz1lj_gvWf85Q/exec";
 const COUNTRY_MAP = {
     "CI": "Côte d'Ivoire", "SN": "Sénégal", "BF": "Burkina Faso", "TG": "Togo", "BJ": "Bénin",
     "ML": "Mali", "GA": "Gabon", "CM": "Cameroun", "NE": "Niger", "CG": "Congo Brazzaville",
@@ -167,7 +167,7 @@ const router = () => {
             submitOrderToSheet(pending);
             localStorage.removeItem('pending_order');
         }
-    } catch(e) {}
+    } catch (e) { }
 
     // --- ADMIN ROUTES ---
     if (path.startsWith('/admin')) {
@@ -331,7 +331,7 @@ const renderProduct = (p) => {
                 let imgCount = 0;
                 return desc.replace(/<img([^>]+)>/gi, (match, attrs) => {
                     imgCount++;
-                    
+
                     // Auto-fill alt if missing or empty
                     if (!/alt\s*=\s*["'][^"']+["']/i.test(attrs)) {
                         let imgName = p.title;
@@ -647,9 +647,9 @@ const renderProduct = (p) => {
 // Reusable: POST an order object to Google Sheets
 const submitOrderToSheet = (data) => {
     const fd = new FormData();
-    const skip = new Set(['timestamp','upsellProductId','upsellPrice','upsellTitle','customer_name','product_name','total','currency','hasUpsell']);
-    Object.entries(data).forEach(([k,v]) => { if (!skip.has(k)) fd.append(k, v); });
-    fetch(GOOGLE_SHEETS_WEBAPP_URL, { method:'POST', body:fd, mode:'no-cors', keepalive:true });
+    const skip = new Set(['timestamp', 'upsellProductId', 'upsellPrice', 'upsellTitle', 'customer_name', 'product_name', 'total', 'currency', 'hasUpsell']);
+    Object.entries(data).forEach(([k, v]) => { if (!skip.has(k)) fd.append(k, v); });
+    fetch(GOOGLE_SHEETS_WEBAPP_URL, { method: 'POST', body: fd, mode: 'no-cors', keepalive: true });
 };
 
 const renderMerci = () => {
@@ -731,6 +731,13 @@ const renderMerci = () => {
                 finalData.produit = combinedTitle;
                 finalData.prix = combinedTotal + ' ' + currency;
                 finalData.quantity = parseInt(pending.quantity) + 1;
+                // Encode both item codes/qty/prices for GAS to build a 2-item COD Africa order
+                // Format: CODE_MAIN:QTY_MAIN:PRICE_MAIN|CODE_UPSELL:1:UPSELL_PRICE
+                const mainCode = pending.code || '';
+                const mainQty = parseInt(pending.quantity) || 1;
+                const mainPrice = parseInt(pending.total_raw) || 0;
+                const upsellCode = upsellProduct.code || '';
+                finalData.code = `${mainCode}:${mainQty}:${mainPrice}|${upsellCode}:1:${upsellPrice}`;
             }
 
             submitOrderToSheet(finalData);
@@ -751,12 +758,12 @@ const renderMerci = () => {
 
         const cdTimer = setInterval(() => {
             seconds--;
-            if (cdEl) cdEl.textContent = `${Math.floor(seconds/60)}:${(seconds%60).toString().padStart(2,'0')}`;
+            if (cdEl) cdEl.textContent = `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, '0')}`;
             if (seconds <= 0) finalize(false);
         }, 1000);
 
         document.getElementById('btn-upsell-yes').onclick = () => finalize(true);
-        document.getElementById('btn-upsell-no').onclick  = () => finalize(false);
+        document.getElementById('btn-upsell-no').onclick = () => finalize(false);
     } else if (!pending) {
         // No pending order (normal no-upsell flow) — nothing extra needed
     }
@@ -1387,7 +1394,7 @@ const initSocialProof = (p) => {
         const time = TIMES[Math.floor(Math.random() * TIMES.length)];
         const initials = lead.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
         // Cycle through avatar background colors
-        const colors = ['#1a56db','#057a55','#c45200','#7c3aed','#be185d','#0e7490'];
+        const colors = ['#1a56db', '#057a55', '#c45200', '#7c3aed', '#be185d', '#0e7490'];
         const bg = colors[idx % colors.length];
 
         popup.innerHTML = `
@@ -1604,13 +1611,13 @@ const setupProductEvents = (p) => {
         btn.disabled = true;
         btn.innerHTML = 'Envoi... <span class="spinner"></span>';
 
-        const nom      = document.getElementById('nom').value;
-        const tel      = document.getElementById('tel').value;
-        const pays     = document.getElementById('pays').value;
-        const adresse  = document.getElementById('adr').value;
+        const nom = document.getElementById('nom').value;
+        const tel = document.getElementById('tel').value;
+        const pays = document.getElementById('pays').value;
+        const adresse = document.getElementById('adr').value;
         const vCouleur = document.getElementById('var-couleur');
-        const vTaille  = document.getElementById('var-taille');
-        const utms     = getUTMParams();
+        const vTaille = document.getElementById('var-taille');
+        const utms = getUTMParams();
 
         // Build the base order object (used both paths)
         const orderPayload = {
@@ -1625,7 +1632,7 @@ const setupProductEvents = (p) => {
             status: 'COMPLETED',
             currency: p.currency,
             ...(vCouleur ? { couleur: vCouleur.value } : {}),
-            ...(vTaille  ? { taille:  vTaille.value  } : {}),
+            ...(vTaille ? { taille: vTaille.value } : {}),
             ...utms,
             // Upsell metadata (stripped before sending to sheet)
             timestamp: Date.now(),
