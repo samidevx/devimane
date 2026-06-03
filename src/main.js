@@ -1322,7 +1322,7 @@ const setupProductEvents = (p) => {
     }
 
     // --- SOCIAL PROOF ---
-    if (p.socialPopup && p.socialPopup.toLowerCase() === 'yes') initSocialProof(p);
+    if (!p.socialPopup || p.socialPopup.toLowerCase() !== 'no') initSocialProof(p);
 
     // --- GALLERY ---
     if ((Array.isArray(p.gallery) && p.gallery.length > 0) || p.gallery === 'yes') {
