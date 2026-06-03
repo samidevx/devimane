@@ -1202,10 +1202,20 @@ const setupProductEvents = (p) => {
         });
     }
 
+    const updateOrderSummary = () => {
+        // For bundles: price already covers all units — don't multiply by qty
+        const total = state.isBundle ? state.price : state.price * state.quantity;
+        document.getElementById('sum-qty').innerText = state.quantity;
+        document.getElementById('sum-total').innerText = fmtPrice(total) + ' ' + p.currency;
+        // Also update the "Prix du produit" row to show the selected offer price
+        const priceRow = document.querySelector('.order-summary .sum-row:first-child span:last-child');
+        if (priceRow) priceRow.innerText = fmtPrice(state.price) + ' ' + p.currency;
+        if (document.getElementById('manual-qty')) document.getElementById('manual-qty').value = state.quantity;
+    };
+
     // --- BUNDLES ---
     if (p.bundle === 'yes') {
         const bundleOpts = document.querySelectorAll('.bundle-opt');
-        // First option is active by default — set initial state
         state.isBundle = true;
         bundleOpts.forEach(opt => {
             opt.onclick = () => {
@@ -1217,6 +1227,14 @@ const setupProductEvents = (p) => {
                 updateOrderSummary();
             };
         });
+        // Immediately apply the pre-selected first offer to state and refresh
+        // the summary — no click required on page load.
+        if (bundleOpts.length > 0) {
+            const firstOpt = bundleOpts[0];
+            state.quantity = parseInt(firstOpt.dataset.qty);
+            state.price = parseInt(firstOpt.dataset.price);
+            updateOrderSummary();
+        }
     }
 
     // --- QUANTITY ---
@@ -1226,17 +1244,6 @@ const setupProductEvents = (p) => {
         btnM.onclick = () => { if (state.quantity > 1) { state.quantity--; state.isBundle = false; updateOrderSummary(); } };
         btnP.onclick = () => { state.quantity++; state.isBundle = false; updateOrderSummary(); };
     }
-
-    const updateOrderSummary = () => {
-        // For bundles: price already covers all units — don't multiply by qty
-        const total = state.isBundle ? state.price : state.price * state.quantity;
-        document.getElementById('sum-qty').innerText = state.quantity;
-        document.getElementById('sum-total').innerText = fmtPrice(total) + ' ' + p.currency;
-        // Also update the "Prix du produit" row to show the selected offer price
-        const priceRow = document.querySelector('.order-summary .sum-row:first-child span:last-child');
-        if (priceRow) priceRow.innerText = fmtPrice(state.price) + ' ' + p.currency;
-        if (document.getElementById('manual-qty')) document.getElementById('manual-qty').value = state.quantity;
-    };
 
     // --- COUNTDOWN ---
     if (p.countdown === 'yes') {
