@@ -3,7 +3,7 @@ import productsData from './data/products.json';
 import { adminUtils } from './admin_utils.js';
 
 // --- CONFIG ---
-const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzj59Y-q72AN-MIdc7F92Yt866S_cQ1vJ2paYUTzlWZXQ42gVSEqdvbLOOI8Abd0P1Skg/exec";
+const GOOGLE_SHEETS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz6rSvIw9mW7mQNShnU9m3GjblCHuAaTAYgnfwdygkdGyfLeJQXGtXo6KlIDLm_ljxMdg/exec";
 const COUNTRY_MAP = {
     "CI": "Côte d'Ivoire", "SN": "Sénégal", "BF": "Burkina Faso", "TG": "Togo", "BJ": "Bénin",
     "ML": "Mali", "GA": "Gabon", "CM": "Cameroun", "NE": "Niger", "CG": "Congo Brazzaville",
