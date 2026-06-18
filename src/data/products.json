@@ -441,7 +441,7 @@
   {
     "id": "convert-cfa",
     "title": "ConvertPlus™ - Multiprise Rotative Universel - Vendu Par Paire",
-    "price": 13900,
+    "price": 14900,
     "priceOld": 27000,
     "currency": "FCFA",
     "category": "gadget",
@@ -451,7 +451,7 @@
     "pays": "CI,GA,ML,TD,BF",
     "bundle": "yes",
      "offres": [
-      { "qty": 2, "price": 13900, "oldPrice": 24900, "title": "🥉 Achetez 1 – Obtenez la 2ᵉ GRATUITE" },
+      { "qty": 2, "price": 14900, "oldPrice": 24900, "title": "🥉 Achetez 1 – Obtenez la 2ᵉ GRATUITE" },
       { "qty": 4, "price": 21900, "oldPrice": 38000, "title": "🥈⭐ Achetez 2 – Obtenez 2 Pièces GRATUITES (Offre Recommandé)" },
       { "qty": 6, "price": 29000, "oldPrice": 56800, "title": "🥇⭐ Achetez 3 – Obtenez 3 Pièces GRATUITES" }
     ],
@@ -475,8 +475,8 @@
   {
     "id": "convert-gn",
     "title": "ConvertPlus™ - Multiprise Rotative Universel - Vendu Par Paire",
-    "price": 185000,
-    "priceOld": 240000,
+    "price": 225000,
+    "priceOld": 290000,
     "currency": "GNF",
     "category": "GADGET",
     "stock": "25",
@@ -485,7 +485,7 @@
     "pays": "GN",
     "bundle": "yes",
      "offres": [
-      { "qty": 2, "price": 185000, "oldPrice": 230000, "title": "🥉 Achetez 1 – Obtenez la 2ᵉ GRATUITE" },
+      { "qty": 2, "price": 225000, "oldPrice": 290000, "title": "🥉 Achetez 1 – Obtenez la 2ᵉ GRATUITE" },
       { "qty": 4, "price": 260000, "oldPrice": 500000, "title": "🥈⭐ Achetez 2 – Obtenez 2 Pièces GRATUITES (Offre Recommandé)" },
       { "qty": 6, "price": 390000, "oldPrice": 650000, "title": "🥇⭐ Achetez 3 – Obtenez 3 Pièces GRATUITES" }
     ],
