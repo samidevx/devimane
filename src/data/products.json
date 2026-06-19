@@ -509,7 +509,7 @@
   {
     "id": "game",
     "title": "Triangle Battle : le jeu de stratégie qui rapproche les familles et fait réfléchir les enfants",
-    "price": 17900,
+    "price": 15900,
     "priceOld": 24900,
     "currency": "FCFA",
     "category": "JEU",
@@ -519,9 +519,9 @@
     "pays": "TG",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 17900, "oldPrice": 24900, "title": "🥉 Achetez 1 Triangle Battle "},
-      { "qty": 2, "price": 26800, "oldPrice": 35800, "title": "🥈⭐ Achetez 1 Triangle Battle– Obtenez la 2ᵉ Avec -50% (Offre Recommandé)" },
-      { "qty": 3, "price": 35800, "oldPrice": 53700, "title": "🥇⭐ Achetez 2 Triangle Battle– Obtenez la 3 Pièce GRATUITES" }
+      { "qty": 1, "price": 15900, "oldPrice": 24900, "title": "🥉 Achetez 1 Triangle Battle "},
+      { "qty": 2, "price": 24800, "oldPrice": 35800, "title": "🥈⭐ Achetez 1 Triangle Battle– Obtenez la 2ᵉ Avec -50% (Offre Recommandé)" },
+      { "qty": 3, "price": 34800, "oldPrice": 53700, "title": "🥇⭐ Achetez 2 Triangle Battle– Obtenez la 3 Pièce GRATUITES" }
     ],
     "countdown": "NO",
     "animated": "yes",
