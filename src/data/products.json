@@ -339,7 +339,7 @@
   {
     "id": "flytex",
     "title": "FlyTex™ – Genouillère de compression thermique pour maintien du genou",
-    "price": 17900,
+    "price": 15900,
     "priceOld": 21900,
     "currency": "CFA",
     "category": "education",
@@ -349,9 +349,9 @@
     "pays": "CI,GA,ML,TD,CG",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 17900, "oldPrice": 21900, "title": "🥉1 Genouillère Flytex™" },
-      { "qty": 2, "price": 24900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
-      { "qty": 4, "price": 39900, "oldPrice": 71000, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite (4 Pièces)"  }
+      { "qty": 1, "price": 15900, "oldPrice": 21900, "title": "🥉1 Genouillère Flytex™" },
+      { "qty": 2, "price": 22900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
+      { "qty": 4, "price": 35900, "oldPrice": 71000, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite (4 Pièces)"  }
     ],
     "countdown": "NO",
     "animated": "yes",
