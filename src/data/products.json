@@ -389,7 +389,7 @@
     ],
     "countdown": "NO",
     "animated": "yes",
-    "isLandingPage": "yes",
+    "isLandingPage": "no",
     "modeBlack": "no",
     "showQuantity": "NO",
     "couleur": "",
