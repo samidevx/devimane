@@ -100,7 +100,7 @@
   {
     "id": "alphabook",
     "title": "Alphabook™ ORIGINAL - 4 Cahiers d’écriture réutilisables – apprentissage de l’écriture pour l’enfant avec Magic Pen",
-    "price": 14900,
+    "price": 13900,
     "priceOld": 24900,
     "currency": "CFA",
     "category": "education",
@@ -110,9 +110,9 @@
     "pays": "BJ,CG,GA,TG,CM",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 14900, "oldPrice": 24900, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
-      { "qty": 2, "price": 22900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
-      { "qty": 3, "price": 29000, "oldPrice": 43000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
+      { "qty": 1, "price": 13900, "oldPrice": 24900, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
+      { "qty": 2, "price": 19900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
+      { "qty": 3, "price": 25000, "oldPrice": 43000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
     ],
     "countdown": "NO",
     "animated": "yes",
@@ -134,7 +134,7 @@
   {
     "id": "alphabook-gn",
     "title": "Alphabook™ ORIGINAL - 4 Cahiers d’écriture réutilisables – apprentissage de l’écriture pour l’enfant avec Magic Pen",
-    "price": 280000,
+    "price": 250000,
     "priceOld": 370000,
     "currency": "GNF",
     "category": "education",
@@ -144,9 +144,9 @@
     "pays": "GN",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 280000, "oldPrice": 370000, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
-      { "qty": 2, "price": 380000, "oldPrice": 540000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
-      { "qty": 3, "price": 490000, "oldPrice": 810000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
+      { "qty": 1, "price": 250000, "oldPrice": 370000, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
+      { "qty": 2, "price": 320000, "oldPrice": 540000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
+      { "qty": 3, "price": 430000, "oldPrice": 810000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
     ],
     "countdown": "NO",
     "animated": "yes",
@@ -168,7 +168,7 @@
   {
     "id": "alphabook-rdc",
     "title": "Alphabook™ ORIGINAL - 4 Cahiers d’écriture réutilisables – apprentissage de l’écriture pour l’enfant avec Magic Pen",
-    "price": 29,
+    "price": 25,
     "priceOld": 38,
     "currency": "$",
     "category": "education",
@@ -178,9 +178,9 @@
     "pays": "CD",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 29, "oldPrice": 38, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
-      { "qty": 2, "price": 39, "oldPrice": 58, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
-      { "qty": 3, "price": 47, "oldPrice": 87, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
+      { "qty": 1, "price": 25, "oldPrice": 38, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
+      { "qty": 2, "price": 34, "oldPrice": 58, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
+      { "qty": 3, "price": 43, "oldPrice": 87, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
     ],
     "countdown": "NO",
     "animated": "yes",
@@ -201,9 +201,9 @@
   },
   {
     "id": "waterbook",
-    "title": "WaterBook™ - Livre Magique à l’Eau pour les enfants - Coloriage Réutilisable à l’Infini - Vendu par paire",
-    "price": 15900,
-    "priceOld": 21900,
+    "title": "WaterBook™ - Livre Magique à l’Eau pour les enfants - Coloriage Réutilisable à l’Infini",
+    "price": 12900,
+    "priceOld": 18900,
     "currency": "CFA",
     "category": "education",
     "stock": "25",
@@ -212,13 +212,13 @@
     "pays": "BF,BJ,GA,TD",
     "bundle": "yes",
      "offres": [
-      { "qty": 2, "price": 15900, "oldPrice": 24900, "title": "🥉2 Livres Magiques à l’Eau " },
-      { "qty": 4, "price": 27900, "oldPrice": 39900, "title": "🥈 ⭐ 4 Livres Magiques à l’Eau" },
-      { "qty": 6, "price": 37900, "oldPrice": 41900, "title": "🥇 ⭐ 6 Livres Magiques à l’Eau" }
+      { "qty": 2, "price": 12900, "oldPrice": 18900, "title": "🥉1 Livres Magiques à l’Eau " },
+      { "qty": 4, "price": 17900, "oldPrice": 39900, "title": "🥈 ⭐ 2 Livres Magiques à l’Eau" },
+      { "qty": 6, "price": 21900, "oldPrice": 41900, "title": "🥇 ⭐ 3 Livres Magiques à l’Eau" }
     ],
     "countdown": "NO",
     "animated": "yes",
-    "isLandingPage": "YES",
+    "isLandingPage": "NO",
     "modeBlack": "no",
     "showQuantity": "NO",
     "couleur": "",
@@ -286,7 +286,7 @@
     ],
     "countdown": "NO",
     "animated": "yes",
-    "isLandingPage": "yes",
+    "isLandingPage": "NO",
     "modeBlack": "no",
     "showQuantity": "NO",
     "couleur": "",
@@ -441,7 +441,7 @@
   {
     "id": "flytex-rdc",
     "title": "FlyTex™ – Genouillère de compression thermique pour maintien du genou",
-    "price": 36,
+    "price": 29,
     "priceOld": 42,
     "currency": "$",
     "category": "education",
@@ -451,13 +451,13 @@
     "pays": "CD",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 36, "oldPrice": 42, "title": "🥉1 Genouillère Flytex™" },
-      { "qty": 2, "price": 46, "oldPrice": 72, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
-      { "qty": 4, "price": 65, "oldPrice": 144, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite  (4 Pièces)" }
+      { "qty": 1, "price": 29, "oldPrice": 42, "title": "🥉1 Genouillère Flytex™" },
+      { "qty": 2, "price": 39, "oldPrice": 72, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
+      { "qty": 4, "price": 56, "oldPrice": 144, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite  (4 Pièces)" }
     ],
     "countdown": "NO",
     "animated": "yes",
-    "isLandingPage": "YES",
+    "isLandingPage": "NO",
     "modeBlack": "no",
     "showQuantity": "NO",
     "couleur": "",
@@ -543,7 +543,7 @@
   {
     "id": "game",
     "title": "Triangle Battle : le jeu de stratégie qui rapproche les familles et fait réfléchir les enfants",
-    "price": 15900,
+    "price": 12900,
     "priceOld": 24900,
     "currency": "FCFA",
     "category": "JEU",
@@ -553,9 +553,9 @@
     "pays": "TG",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 15900, "oldPrice": 24900, "title": "🥉 Achetez 1 Triangle Battle "},
-      { "qty": 2, "price": 24800, "oldPrice": 35800, "title": "🥈⭐ Achetez 1 Triangle Battle– Obtenez la 2ᵉ Avec -50% (Offre Recommandé)" },
-      { "qty": 3, "price": 34800, "oldPrice": 53700, "title": "🥇⭐ Achetez 2 Triangle Battle– Obtenez la 3 Pièce GRATUITES" }
+      { "qty": 1, "price": 12900, "oldPrice": 24900, "title": "🥉 Achetez 1 Triangle Battle "},
+      { "qty": 2, "price": 18800, "oldPrice": 35800, "title": "🥈⭐ Achetez 1 Triangle Battle– Obtenez la 2ᵉ Avec -50% (Offre Recommandé)" },
+      { "qty": 3, "price": 24800, "oldPrice": 53700, "title": "🥇⭐ Achetez 2 Triangle Battle– Obtenez la 3 Pièce GRATUITES" }
     ],
     "countdown": "NO",
     "animated": "yes",
