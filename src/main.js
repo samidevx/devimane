@@ -88,7 +88,7 @@ const updateMeta = (name, content, attr = 'property') => {
 };
 
 const updateSEO = (p = null) => {
-    const brand = "Lina Nightwear";
+    const brand = "LP Shop Africa";
     const baseUrl = "https://linanightwear.com";
     const oldSchema = document.getElementById('product-schema');
     if (oldSchema) oldSchema.remove();
@@ -672,7 +672,7 @@ const renderFooter = () => `
     <footer class="site-footer">
         <div class="footer-grid">
             <div>
-                <div class="footer-logo"><div class="footer-logo-icon">🛒</div> LP Africa</div>
+                <div class="footer-logo"><div class="footer-logo-icon">🛒</div> LP Shop Africa</div>
                 <p class="footer-desc">Votre boutique de confiance. Livraison rapide, paiement à la réception.</p>
             </div>
             <div class="footer-col">
