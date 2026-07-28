@@ -308,7 +308,7 @@ const renderProduct = (p) => {
                 <div class="header-spacer"></div>
                 <a href="/" class="site-logo">
                     <div class="site-logo-icon">🛒</div>
-                    Lina NightWear
+                    LP Shop Africa
                 </a>
                 <div class="header-spacer" style="display:flex; justify-content:flex-end;">
                     <button class="mode-toggle" id="dark-mode-toggle" aria-label="Changer le thème"><i class="fa fa-moon"></i><i class="fa fa-sun"></i></button>
