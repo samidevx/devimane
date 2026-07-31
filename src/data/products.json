@@ -100,7 +100,7 @@
   {
     "id": "alphabook",
     "title": "Alphabook™ ORIGINAL - 4 Cahiers d’écriture réutilisables – apprentissage de l’écriture pour l’enfant avec Magic Pen",
-    "price": 13900,
+    "price": 14900,
     "priceOld": 24900,
     "currency": "CFA",
     "category": "education",
@@ -110,7 +110,7 @@
     "pays": "BJ,CG,GA,TG,CM",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 13900, "oldPrice": 24900, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
+      { "qty": 1, "price": 14900, "oldPrice": 24900, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
       { "qty": 2, "price": 19900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
       { "qty": 3, "price": 25000, "oldPrice": 43000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
     ],
@@ -175,6 +175,7 @@
     "stock": "25",
     "code": "COD18461",
     "whatsapp": "2250701825463",
+    "whatsapp-sticky": "off",
     "pays": "CD",
     "bundle": "yes",
      "offres": [
@@ -448,6 +449,7 @@
     "stock": "25",
     "code": "COD11405",
     "whatsapp": "2250701825463",
+    "whatsapp-sticky": "off",
     "pays": "CD",
     "bundle": "yes",
      "offres": [
