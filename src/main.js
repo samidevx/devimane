@@ -560,8 +560,10 @@ const renderProduct = (p) => {
         </main>
         
         <div class="sticky-bar">
-            <a class="sticky-order" href="#orderFormBlock"><i class="fa fa-shopping-basket"></i> Commander</a>
+            <a class="sticky-order" href="#orderFormBlock" style="${(p['whatsapp-sticky'] ?? 'on').toString().toLowerCase() === 'off' ? 'width: 100%;' : ''}"><i class="fa fa-shopping-basket"></i> Commander</a>
+            ${(p['whatsapp-sticky'] ?? 'on').toString().toLowerCase() !== 'off' && p.whatsapp ? `
             <a aria-label="WhatsApp" class="sticky-wa" href="https://wa.me/${p.whatsapp.replace(/\+/g, '')}?text=${encodeURIComponent(`Bonjour, je souhaite commander : ${p.title}\nLien : ${window.location.origin + window.location.pathname}`)}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            ` : ''}
         </div>
 
         <!-- Modals -->
@@ -816,6 +818,13 @@ const renderProductForm = (p = null) => {
                     <div class="form-group">
                         <label class="form-label">WhatsApp Number</label>
                         <input type="text" class="form-control" id="p-whatsapp" value="${p?.whatsapp || '2250701825463'}">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp Sticky Button?</label>
+                        <select class="form-control" id="p-whatsappSticky">
+                            <option value="on" ${(p?.['whatsapp-sticky'] ?? 'on').toString().toLowerCase() === 'on' ? 'selected' : ''}>On (Show)</option>
+                            <option value="off" ${(p?.['whatsapp-sticky'] ?? 'on').toString().toLowerCase() === 'off' ? 'selected' : ''}>Off (Hide - Full Width Commander Button)</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Target Countries (ISO, comma-separated)</label>
@@ -1140,6 +1149,7 @@ const setupAdminEvents = () => {
                 stock: document.getElementById('p-stock').value,
                 code: document.getElementById('p-code').value,
                 whatsapp: document.getElementById('p-whatsapp').value,
+                "whatsapp-sticky": document.getElementById('p-whatsappSticky').value,
                 pays: document.getElementById('p-pays').value,
                 bundle: document.getElementById('p-bundle').value,
                 countdown: document.getElementById('p-countdown').value,
