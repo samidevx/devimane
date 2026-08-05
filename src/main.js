@@ -270,7 +270,9 @@ const renderHome = () => {
 const renderProduct = (p) => {
     state.currentProduct = p;
     state.price = p.price;
+    state.currency = p.currency || 'CFA';
     state.quantity = 1;
+    state.isBundle = false;
     state.igIndex = 0;
     const isLP = p.isLandingPage && p.isLandingPage.toLowerCase() === 'yes';
 
@@ -527,7 +529,7 @@ const renderProduct = (p) => {
                                 </div>
                                 <div class="sum-total">
                                     <span>Total général</span>
-                                    <span id="sum-total">${fmtPrice(state.price)} ${state.currency}</span>
+                                    <span id="sum-total">${fmtPrice(state.price)} ${p.currency}</span>
                                 </div>
                             </div>
 
@@ -1444,6 +1446,9 @@ const setupProductEvents = (p) => {
             state.price = parseInt(firstOpt.dataset.price);
             updateOrderSummary();
         }
+    } else {
+        state.isBundle = false;
+        updateOrderSummary();
     }
 
     // --- QUANTITY ---
