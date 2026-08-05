@@ -464,11 +464,6 @@ const renderProduct = (p) => {
                             </div>
                         ` : ''}
 
-                        <div class="commit-msg" style="text-align: center; gap: 12px; margin-bottom: 24px; font-size: 13px; display: flex; align-items: center; justify-content: center; padding: 0 10px;">
-                            <i class="fa fa-phone" style="color: var(--blue); transform: rotate(90deg); font-size: 18px;"></i>
-                            <span style="color: var(--gray-500); line-height: 1.6;">Un agent vous appellera pour confirmer votre commande avant expédition. Merci de commander uniquement si vous êtes sûr de votre achat.</span>
-                        </div>
-
                         <form id="orderForm">
                             <div class="form-row">
                                 <div class="form-group">
