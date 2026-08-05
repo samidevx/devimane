@@ -430,22 +430,36 @@ const renderProduct = (p) => {
                             <div class="bundle-wrap">
                                 <div class="bundle-hdr">🎁 Sélectionnez votre Offre</div>
                                 <div id="bundle-options">
-                                    ${p.offres.map((o, i) => `
-                                        <div class="bundle-opt ${i === 0 ? 'active' : ''}" data-qty="${o.qty}" data-price="${o.price}" data-old-price="${o.oldPrice}" data-title="${o.title}">
-                                            <div class="bundle-radio"></div>
-                                            <div class="bundle-opt-inner">
-                                                <div>
-                                                    <div class="bundle-title">${o.title}</div>
-                                                    <div class="bundle-qty-pill">📦 x${o.qty}</div>
-                                                </div>
-                                                <div class="bundle-prices">
-                                                    <span class="bundle-price-now">${fmtPrice(o.price)} ${p.currency}</span>
-                                                    <span class="bundle-price-old">${fmtPrice(o.oldPrice)} ${p.currency}</span>
-                                                    ${o.oldPrice > o.price ? `<span class="bundle-save-badge">-${Math.round((o.oldPrice - o.price) / o.oldPrice * 100)}%</span>` : ''}
+                                    ${p.offres.map((o, i) => {
+                                        const saveAmt = o.oldPrice > o.price ? o.oldPrice - o.price : 0;
+                                        const savePct = o.oldPrice > o.price ? Math.round((saveAmt / o.oldPrice) * 100) : 0;
+                                        let badgeHTML = '';
+                                        if (savePct > 0) {
+                                            if (i === 0) {
+                                                badgeHTML = `<div class="bundle-badge badge-blue"><i class="fa fa-bolt"></i> Réduction ${savePct}%</div>`;
+                                            } else {
+                                                badgeHTML = `<div class="bundle-badge badge-orange"><i class="fa fa-fire"></i> Économisez ${fmtPrice(saveAmt)} ${p.currency} - Réduction ${savePct}%</div>`;
+                                            }
+                                        }
+                                        return `
+                                            <div class="bundle-opt ${i === 0 ? 'active' : ''}" data-qty="${o.qty}" data-price="${o.price}" data-old-price="${o.oldPrice}" data-title="${o.title}">
+                                                ${badgeHTML}
+                                                <div class="bundle-opt-content">
+                                                    <div class="bundle-opt-details">
+                                                        <div class="bundle-title">${o.title}</div>
+                                                        <div class="bundle-price-row">
+                                                            <span class="bundle-price-now">${fmtPrice(o.price)}</span>
+                                                            <span class="bundle-currency">${p.currency}</span>
+                                                            ${o.oldPrice ? `<span class="bundle-price-old">${fmtPrice(o.oldPrice)} ${p.currency}</span>` : ''}
+                                                        </div>
+                                                    </div>
+                                                    <div class="bundle-radio">
+                                                        <div class="bundle-radio-dot"></div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    `).join('')}
+                                        `;
+                                    }).join('')}
                                 </div>
                             </div>
                         ` : ''}
