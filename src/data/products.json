@@ -307,7 +307,7 @@
   {
     "id": "neoflex",
     "title": "✅ NeoFlex™ - Dites adieu à l’arthrose : cette genouillère change tout. - Vendu Par Paire",
-    "price": 15900,
+    "price": 14900,
     "priceOld": 25900,
     "currency": "FCFA",
     "category": "education",
@@ -317,7 +317,7 @@
     "pays": "CI,GA,ML,TD",
     "bundle": "yes",
      "offres": [
-      { "qty": 2, "price": 15900, "oldPrice": 25900, "title": "🥉 Achetez 1 Genouillère NeoFlex – Obtenez la 2ᵉ GRATUITE" },
+      { "qty": 2, "price": 14900, "oldPrice": 25900, "title": "🥉 Achetez 1 Genouillère NeoFlex – Obtenez la 2ᵉ GRATUITE" },
       { "qty": 4, "price": 22900, "oldPrice": 46000, "title": "🥈 Achetez 2 Genouillère NeoFlex™ - Obtenez 2 Pièces GRATUITES" },
       { "qty": 6, "price": 29900, "oldPrice": 76000, "title": "🥇 Achetez 3 Genouillère NeoFlex™ - Obtenez 3 Pièces GRATUITES" }
     ],
