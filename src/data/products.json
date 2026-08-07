@@ -237,7 +237,7 @@
   {
     "id": "waterbook-ci",
     "title": "WaterMagi™ - 4 Livres Magique à l’Eau pour les enfants - Coloriage Réutilisable à l’Infini",
-    "price": 15900,
+    "price": 14900,
     "priceOld": 21900,
     "currency": "FCFA",
     "category": "education",
@@ -247,7 +247,7 @@
     "pays": "CI",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 15900, "oldPrice": 21900, "title": "🥉4 Livres Magique à l’Eau + 4 Stylos Gratuits" },
+      { "qty": 1, "price": 14900, "oldPrice": 21900, "title": "🥉4 Livres Magique à l’Eau + 4 Stylos Gratuits" },
       { "qty": 2, "price": 21900, "oldPrice": 35800, "title": "🥈 ⭐ 8 Livres Magiques à l’Eau + 8 Stylos Gratuits" },
       { "qty": 3, "price": 26900, "oldPrice": 53700, "title": "🥇 ⭐ 12 Livres Magiques à l’Eau + 12 Stylos Gratuits" }
     ],
