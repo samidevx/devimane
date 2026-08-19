@@ -480,8 +480,14 @@ const renderProduct = (p) => {
                                 <div class="form-group">
                                     <label class="form-label" for="pays"><i class="fa fa-globe" style="color: var(--green);"></i> Pays <span class="req">*</span></label>
                                     <select class="form-control" id="pays" required>
-                                        <option value="">Choisir le pays</option>
-                                        ${p.pays.split(',').map(c => `<option value="${c}">${COUNTRY_MAP[c] || c}</option>`).join('')}
+                                        ${(() => {
+                                            const countryList = (p.pays || '').split(',').map(c => c.trim()).filter(Boolean);
+                                            if (countryList.length === 1) {
+                                                const c = countryList[0];
+                                                return `<option value="${c}" selected>${COUNTRY_MAP[c] || c}</option>`;
+                                            }
+                                            return `<option value="">Choisir le pays</option>` + countryList.map(c => `<option value="${c}">${COUNTRY_MAP[c] || c}</option>`).join('');
+                                        })()}
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -1432,6 +1438,15 @@ const setupProductEvents = (p) => {
     if (lead.nom) {
         const nomInput = document.getElementById('nom');
         if (nomInput && !nomInput.value) nomInput.value = lead.nom;
+    }
+
+    // --- PAYS AUTO-SELECT ---
+    const paysSelect = document.getElementById('pays');
+    if (paysSelect) {
+        const countryList = (p.pays || '').split(',').map(c => c.trim()).filter(Boolean);
+        if (countryList.length === 1) {
+            paysSelect.value = countryList[0];
+        }
     }
 
     // --- SOCIAL PROOF ---
