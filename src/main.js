@@ -32,6 +32,15 @@ const optimizeBloggerImg = (url, size = '600') => {
     return url.replace(/\/s\d+\//, `/w${size}/`).replace(/\/s\d+$/, `/w${size}`);
 };
 
+window.openPolicyModal = (type) => {
+    const modal = document.getElementById(`modal-${type}`);
+    if (modal) modal.classList.add('open');
+};
+window.closePolicyModal = (type) => {
+    const modal = document.getElementById(`modal-${type}`);
+    if (modal) modal.classList.remove('open');
+};
+
 const getUTMParams = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const utms = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
@@ -302,14 +311,15 @@ const renderProduct = (p) => {
     const app = document.getElementById('app');
     app.innerHTML = `
         <div class="topbar">
-            <span><i class="fa fa-truck"></i> Livraison Gratuite</span>
-            <span><i class="fa fa-rotate-left"></i> Retour 7 jours</span>
+            <span><i class="fa fa-truck"></i> Livraison Offerte Partout</span>
+            <span><i class="fa fa-shield-halved"></i> Paiement à la Réception</span>
+            <span><i class="fa fa-rotate-left"></i> Satisfait ou Remboursé 7 Jours</span>
         </div>
         <header class="site-header" style="${isLP ? 'display:none' : ''}">
             <div class="header-inner">
                 <div class="header-spacer"></div>
                 <a href="/" class="site-logo">
-                    <div class="site-logo-icon">🛒</div>
+                    <div class="site-logo-icon"><i class="fa fa-bag-shopping"></i></div>
                     LP Shop Africa
                 </a>
                 <div class="header-spacer" style="display:flex; justify-content:flex-end;">
@@ -379,31 +389,31 @@ const renderProduct = (p) => {
                     <h1 class="prod-title">${p.title}</h1>
                     <div class="prod-rating">
                         <div class="stars">★★★★★</div>
-                        <span class="rating-count">(${p.reviews} avis)</span>
-                        <span class="rating-badge"><i class="fa fa-circle-check"></i> Vendeur Vérifié</span>
+                        <span class="rating-count">(${p.reviews} avis vérifiés)</span>
+                        <span class="rating-badge"><i class="fa fa-circle-check"></i> Vendeur Officiel</span>
                     </div>
                     <div class="price-row" style="margin-bottom: 10px; align-items: center;">
-                        <span class="price-now" id="d-price" style="font-size: 42px; color: var(--red);">${fmtPrice(p.price)} ${p.currency}</span>
-                        ${p.priceOld ? `<span class="price-old" id="d-price-old" style="font-size: 21px; color: var(--gray-500);">${fmtPrice(p.priceOld)} ${p.currency}</span>` : ''}
-                        ${p.priceOld ? `<span class="price-save" id="d-price-save" style="font-size: 13.5px; padding: 5px 12px; background: #fef08a; color: #92400e;">Économisez ${fmtPrice(p.priceOld - p.price)} ${p.currency} (-${Math.round((p.priceOld - p.price) / p.priceOld * 100)}%)</span>` : ''}
+                        <span class="price-now" id="d-price">${fmtPrice(p.price)} ${p.currency}</span>
+                        ${p.priceOld ? `<span class="price-old" id="d-price-old">${fmtPrice(p.priceOld)} ${p.currency}</span>` : ''}
+                        ${p.priceOld ? `<span class="price-save" id="d-price-save">Économisez ${fmtPrice(p.priceOld - p.price)} ${p.currency} (-${Math.round((p.priceOld - p.price) / p.priceOld * 100)}%)</span>` : ''}
                     </div>
-                    <p class="price-note" style="margin-bottom: 28px; font-size: 14.5px; color: var(--gray-500);"><span style="font-size: 15px;">💰</span> Paiement à la livraison — Zéro risque</p>
+                    <p class="price-note" style="margin-bottom: 24px; font-size: 14px; color: var(--gray-600);"><i class="fa fa-shield-check" style="color: var(--green); margin-right: 6px;"></i> Paiement uniquement à la livraison — Zéro risque</p>
                     
-                    <div class="stock-wrap" style="margin-bottom: 28px;">
-                        <div class="stock-lbl" style="font-size: 15px; font-weight: 700; color: var(--gray-800); margin-bottom: 10px;">
-                            <span>Stock disponible</span> 
-                            <strong id="d-stock-lbl" style="color: var(--red);">⚠️ Plus que ${p.stock} unités !</strong>
+                    <div class="stock-wrap">
+                        <div class="stock-lbl">
+                            <span>Disponibilité en magasin</span> 
+                            <strong id="d-stock-lbl">⚠️ Plus que ${p.stock} pièces en stock !</strong>
                         </div>
-                        <div class="stock-track" style="height: 10px; background: var(--gray-200); border-radius: 10px;">
-                            <div class="stock-fill" style="width: 90%; height: 100%; border-radius: 10px; background: var(--orange); background: linear-gradient(90deg, var(--orange), #f97316); animation: none;"></div>
+                        <div class="stock-track">
+                            <div class="stock-fill" style="width: 85%;"></div>
                         </div>
                     </div>
 
-                    <ul class="feat-list" style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
-                        <li class="feat-item" style="font-size: 15.5px; color: var(--gray-700); align-items: center;"><i class="fa fa-check-circle" style="color: var(--green); font-size: 19px; border-radius: 50%; fill: currentColor;"></i> Livraison gratuite partout</li>
-                        <li class="feat-item" style="font-size: 15.5px; color: var(--gray-700); align-items: center;"><i class="fa fa-check-circle" style="color: var(--green); font-size: 19px; border-radius: 50%; fill: currentColor;"></i> Paiement uniquement à la réception</li>
-                        <li class="feat-item" style="font-size: 15.5px; color: var(--gray-700); align-items: center;"><i class="fa fa-check-circle" style="color: var(--green); font-size: 19px; border-radius: 50%; fill: currentColor;"></i> Retour gratuit sous 7 jours</li>
-                        <li class="feat-item" style="font-size: 15.5px; color: var(--gray-700); align-items: center;"><i class="fa fa-check-circle" style="color: var(--green); font-size: 19px; border-radius: 50%; fill: currentColor;"></i> Service client 7j/7</li>
+                    <ul class="feat-list">
+                        <li class="feat-item"><i class="fa fa-truck-fast"></i> Livraison gratuite rapide à domicile</li>
+                        <li class="feat-item"><i class="fa fa-hand-holding-dollar"></i> Payez après vérification du produit</li>
+                        <li class="feat-item"><i class="fa fa-arrow-rotate-left"></i> Échange & retour gratuit sous 7 jours</li>
+                        <li class="feat-item"><i class="fa fa-headset"></i> Support client dédié 7j/7</li>
                     </ul>
                 </div>
             </div>
@@ -467,40 +477,40 @@ const renderProduct = (p) => {
                         <form id="orderForm">
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label" for="pays"><i class="fa fa-globe" style="color: #60a5fa;"></i> Pays <span class="req">*</span></label>
+                                    <label class="form-label" for="pays"><i class="fa fa-globe" style="color: var(--green);"></i> Pays <span class="req">*</span></label>
                                     <select class="form-control" id="pays" required>
                                         <option value="">Choisir le pays</option>
                                         ${p.pays.split(',').map(c => `<option value="${c}">${COUNTRY_MAP[c] || c}</option>`).join('')}
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label" for="tel"><i class="fa fa-mobile-screen-button" style="color: #a78bfa;"></i> Téléphone <span class="req">*</span></label>
-                                    <input type="tel" class="form-control" id="tel" placeholder="XX XXX XX XX" required>
+                                    <label class="form-label" for="tel"><i class="fa fa-phone" style="color: var(--green);"></i> Téléphone <span class="req">*</span></label>
+                                    <input type="tel" class="form-control" id="tel" placeholder="Ex: 77 000 00 00" required>
                                     <div class="error-msg" id="error-tel">Veuillez entrer un numéro valide (min 8 chiffres)</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group">
-                                    <label class="form-label" for="nom"><i class="fa fa-user" style="color: #c084fc;"></i> Nom <span class="req">*</span></label>
-                                    <input type="text" class="form-control" id="nom" placeholder="Votre nom complet" required>
+                                    <label class="form-label" for="nom"><i class="fa fa-user" style="color: var(--green);"></i> Nom complet <span class="req">*</span></label>
+                                    <input type="text" class="form-control" id="nom" placeholder="Prénom et Nom" required>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label" for="adr"><i class="fa fa-location-dot" style="color: #c084fc;"></i> Ville <span class="req">*</span></label>
-                                    <input type="text" class="form-control" id="adr" placeholder="Ville, Quartier" required>
+                                    <label class="form-label" for="adr"><i class="fa fa-location-dot" style="color: var(--green);"></i> Adresse / Ville <span class="req">*</span></label>
+                                    <input type="text" class="form-control" id="adr" placeholder="Ville, Quartier, Rue" required>
                                 </div>
                             </div>
 
                             <div class="confirm-box">
                                 <label>
-                                    <input type="checkbox" checked required style="width: 18px; height: 18px; accent-color: var(--blue); margin: 0; flex-shrink: 0; border-radius: 4px;">
-                                    <span>Je confirme que je suis prêt(e) à recevoir l'appel pour confirmer ma commande</span>
+                                    <input type="checkbox" checked required style="width: 19px; height: 19px; accent-color: var(--green); margin-top: 2px; flex-shrink: 0; cursor: pointer;">
+                                    <span>Je confirme ma disponibilité pour recevoir l'appel de confirmation et régler la commande à la livraison.</span>
                                 </label>
                             </div>
 
                             <div class="form-row">
                                 ${p.couleur ? `
                                     <div class="form-group">
-                                        <label class="form-label" for="var-couleur"><i class="fa fa-palette"></i> Couleur</label>
+                                        <label class="form-label" for="var-couleur"><i class="fa fa-palette" style="color: var(--green);"></i> Couleur</label>
                                         <select class="form-control" id="var-couleur">
                                             ${p.couleur.split(',').map(c => `<option value="${c}">${c}</option>`).join('')}
                                         </select>
@@ -509,7 +519,7 @@ const renderProduct = (p) => {
 
                                 ${p.taille ? `
                                     <div class="form-group">
-                                        <label class="form-label" for="var-taille"><i class="fa fa-ruler-combined"></i> Taille</label>
+                                        <label class="form-label" for="var-taille"><i class="fa fa-ruler-combined" style="color: var(--green);"></i> Taille</label>
                                         <select class="form-control" id="var-taille">
                                             ${p.taille.split(',').map(s => `<option value="${s}">${s}</option>`).join('')}
                                         </select>
@@ -529,26 +539,26 @@ const renderProduct = (p) => {
                             ` : ''}
 
                             <div class="order-summary">
-                                <div class="sum-row"><span>Prix du produit</span> <span>${fmtPrice(state.price)} ${p.currency}</span></div>
-                                <div class="sum-row"><span>Quantité</span> <span id="sum-qty">${state.quantity}</span></div>
-                                <div class="sum-row"><span>Prix de livraison</span> <span>Gratuit</span></div>
+                                <div class="sum-row"><span>Prix sous-total</span> <span>${fmtPrice(state.price)} ${p.currency}</span></div>
+                                <div class="sum-row"><span>Quantité commandée</span> <span id="sum-qty">${state.quantity}</span></div>
+                                <div class="sum-row"><span>Frais de livraison</span> <span style="color: var(--green); font-weight: 700;">GRATUIT</span></div>
                                 <div class="sum-row sum-savings" id="sum-savings" style="display:none;">
-                                    <span>💰 Vous économisez</span>
+                                    <span>💰 Économie immédiate</span>
                                     <span id="sum-savings-amt" style="color:var(--green); font-weight:800;"></span>
                                 </div>
                                 <div class="sum-total">
-                                    <span>Total général</span>
+                                    <span>Montant Total à Payer</span>
                                     <span id="sum-total">${fmtPrice(state.price)} ${p.currency}</span>
                                 </div>
                             </div>
 
                             <button type="submit" class="submit-btn ${p.animated && p.animated.toLowerCase() === 'yes' ? 'animated-yes' : ''}" id="submitBtn">
-                                <i class="fa fa-lock"></i> Valider Ma Commande
+                                <i class="fa fa-lock"></i> Valider Ma Commande Maintenant
                             </button>
-                            <div class="pay-icons" style="margin-top: 15px; gap: 10px;">
-                                <span class="trust-badge"><i class="fa fa-money-bill-1"></i> Cash</span>
-                                <span class="trust-badge"><i class="fa fa-truck-fast"></i> COD</span>
-                                <span class="trust-badge"><i class="fa fa-shield-check"></i> 100% Sécurisé</span>
+                            <div class="pay-icons" style="margin-top: 16px; gap: 8px;">
+                                <span class="trust-badge"><i class="fa fa-money-bill-wave" style="color: var(--green);"></i> Paiement Cash</span>
+                                <span class="trust-badge"><i class="fa fa-truck-fast" style="color: var(--green);"></i> Livraison Express</span>
+                                <span class="trust-badge"><i class="fa fa-shield-check" style="color: var(--green);"></i> Garantie 7 Jours</span>
                             </div>
                         </form>
                     </div>
@@ -683,13 +693,76 @@ const renderMerci = () => {
 
 const renderFooter = () => `
     <footer class="site-footer">
-        <div class="footer-grid">
-            <div>
-                <div class="footer-logo"><div class="footer-logo-icon">🛒</div> LP Shop Africa</div>
-                <p class="footer-desc">Votre boutique de confiance. Livraison rapide, paiement à la réception.</p>
+        <div class="footer-inner">
+            <div class="footer-brand-emblem">
+                <div class="footer-emblem-icon">
+                    <i class="fa fa-bag-shopping"></i>
+                </div>
             </div>
-            <div class="footer-col">
-                <h2>Liens</h2>
+            <h2 class="footer-brand-name">LP Shop Africa</h2>
+            <p class="footer-brand-desc">
+                Boutique moderne avec une touche d'élégance, offrant des produits sélectionnés avec soin pour votre style, de qualité supérieure et à prix abordables.
+            </p>
+
+            <div class="footer-socials">
+                <a href="https://wa.me/" target="_blank" rel="noopener" aria-label="WhatsApp" class="footer-social-btn"><i class="fab fa-whatsapp"></i></a>
+                <a href="#" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social-btn"><i class="fab fa-facebook-f"></i></a>
+            </div>
+
+            <div class="footer-policy-nav">
+                <button type="button" onclick="window.openPolicyModal('privacy');" class="footer-policy-link">Politique de confidentialité</button>
+                <span class="footer-policy-dot">•</span>
+                <button type="button" onclick="window.openPolicyModal('terms');" class="footer-policy-link">Conditions d'utilisation</button>
+                <span class="footer-policy-dot">•</span>
+                <button type="button" onclick="window.openPolicyModal('returns');" class="footer-policy-link">Politique de retour et d'échange</button>
+            </div>
+
+            <hr class="footer-line">
+
+            <p class="footer-copyright">© 2026 LP Shop Africa. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Policy Modals -->
+    <div class="modal policy-modal" id="modal-privacy">
+        <div class="modal-bg" onclick="window.closePolicyModal('privacy')"></div>
+        <div class="modal-box policy-modal-box">
+            <button class="policy-modal-close" onclick="window.closePolicyModal('privacy')">&times;</button>
+            <h3 class="policy-modal-title">Politique de confidentialité</h3>
+            <div class="policy-modal-content">
+                <p><strong>Collecte de données :</strong> Nous collectons votre nom, numéro de téléphone, Wilaya et Commune uniquement pour traiter et livrer votre commande de manière efficace.</p>
+                <p><strong>Utilisation des données :</strong> Vos informations personnelles ne sont jamais partagées, vendues ou louées à des tiers, à l'exception de notre partenaire de livraison pour assurer le transport et le suivi de vos colis.</p>
+                <p><strong>Sécurité des données :</strong> Nous prenons toutes les mesures de sécurité nécessaires pour protéger vos données contre tout accès non autorisé.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal policy-modal" id="modal-terms">
+        <div class="modal-bg" onclick="window.closePolicyModal('terms')"></div>
+        <div class="modal-box policy-modal-box">
+            <button class="policy-modal-close" onclick="window.closePolicyModal('terms')">&times;</button>
+            <h3 class="policy-modal-title">Conditions d'utilisation</h3>
+            <div class="policy-modal-content">
+                <p><strong>Commandes :</strong> En passant commande sur notre site, vous confirmez que les informations fournies sont exactes. Notre équipe vous appellera par téléphone pour confirmer la commande avant l'expédition.</p>
+                <p><strong>Paiement :</strong> Le règlement des commandes s'effectue intégralement en espèces lors de la réception de votre colis (Paiement à la livraison - COD).</p>
+                <p><strong>Annulation :</strong> Si vous souhaitez annuler ou modifier votre commande, veuillez contacter notre service client au plus tard 2 heures après la validation sur le site.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal policy-modal" id="modal-returns">
+        <div class="modal-bg" onclick="window.closePolicyModal('returns')"></div>
+        <div class="modal-box policy-modal-box">
+            <button class="policy-modal-close" onclick="window.closePolicyModal('returns')">&times;</button>
+            <h3 class="policy-modal-title">Politique de retour et d'échange</h3>
+            <div class="policy-modal-content">
+                <p><strong>Délai de retour :</strong> Vous disposez d'un délai de 7 jours après la réception de votre colis pour demander un retour ou un échange de produit.</p>
+                <p><strong>Conditions des articles :</strong> Les articles doivent être retournés dans leur état d'origine, non portés, non lavés, avec toutes les étiquettes et dans leur emballage d'origine.</p>
+                <p><strong>Frais de retour :</strong> Les frais de retour ou d'échange sont à la charge du client, sauf en cas de produit défectueux ou d'erreur de notre part lors de la préparation de la commande.</p>
+            </div>
+        </div>
+    </div>
 `;
 
 // --- ADMIN VIEWS ---
@@ -1694,7 +1767,12 @@ window.addEventListener('DOMContentLoaded', () => {
     // Global link interceptor for SPA navigation
     document.addEventListener('click', (e) => {
         const link = e.target.closest('a');
-        if (link && link.href.startsWith(window.location.origin) && !link.target) {
+        if (!link) return;
+        const href = link.getAttribute('href');
+        if (!href || href.startsWith('javascript:') || href === '#' || link.hasAttribute('data-no-route')) {
+            return;
+        }
+        if (link.href.startsWith(window.location.origin) && !link.target) {
             // Internal anchor links handler
             if (link.hash && link.pathname === window.location.pathname) {
                 const targetId = link.hash.substring(1);
@@ -1703,6 +1781,9 @@ window.addEventListener('DOMContentLoaded', () => {
                     e.preventDefault();
                     targetElement.scrollIntoView({ behavior: 'smooth' });
                     window.history.pushState(null, null, link.hash);
+                    return;
+                } else {
+                    e.preventDefault();
                     return;
                 }
             }
