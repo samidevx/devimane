@@ -26,6 +26,7 @@ let state = {
 };
 
 // --- UTILS ---
+const isYes = (val) => Boolean(val && val.toString().trim().toLowerCase() === 'yes');
 const fmtPrice = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const optimizeBloggerImg = (url, size = '600') => {
     if (!url || !url.includes('blogger.googleusercontent.com')) return url;
@@ -253,7 +254,7 @@ const renderHome = () => {
             </div>
             <div class="catalogue-grid">
                 ${products.slice(0, 4).map(p => `
-                    <a class="pcard ${p.modeBlack === 'yes' ? 'mode-nuit' : ''}" href="/product/${p.id}">
+                    <a class="pcard ${isYes(p.modeBlack) ? 'mode-nuit' : ''}" href="/product/${p.id}">
                         <div class="pcard-img">
                             <img src="${optimizeBloggerImg(p.featuredImage, 400)}" alt="${p.title}" loading="lazy">
                             <span class="pcard-badge">🔥 Offre</span>
@@ -283,7 +284,7 @@ const renderProduct = (p) => {
     state.quantity = 1;
     state.isBundle = false;
     state.igIndex = 0;
-    const isLP = p.isLandingPage && p.isLandingPage.toLowerCase() === 'yes';
+    const isLP = isYes(p.isLandingPage);
 
     // LP Body Classes
     if (isLP) document.body.classList.add('lp-mode-active');
@@ -293,7 +294,7 @@ const renderProduct = (p) => {
     if (isLP) document.body.classList.add('is-merci-page');
     else document.body.classList.remove('is-merci-page');
 
-    if (p.modeBlack && p.modeBlack.toLowerCase() === 'yes') document.body.classList.add('mode-nuit');
+    if (isYes(p.modeBlack)) document.body.classList.add('mode-nuit');
     else document.body.classList.remove('mode-nuit');
 
     // --- LCP PRELOAD: inject <link rel="preload"> for featured image ASAP ---
@@ -366,7 +367,7 @@ const renderProduct = (p) => {
             <div class="product-card">
                 ${!isLP ? `
                 <div class="prod-gallery">
-                    ${(Array.isArray(p.gallery) && p.gallery.length > 0) || (typeof p.gallery === 'string' && p.gallery.toLowerCase() === 'yes') ? `
+                    ${(Array.isArray(p.gallery) && p.gallery.length > 0) || isYes(p.gallery) ? `
                         <div id="interactive-gallery">
                             <div class="ig-main">
                                 <button class="ig-btn ig-prev" id="prev-ig" aria-label="Image précédente"><i class="fa fa-chevron-left"></i></button>
@@ -425,7 +426,7 @@ const renderProduct = (p) => {
                         <p>Remplissez le formulaire ci-dessous</p>
                     </div>
                     <div class="order-body">
-                        <div id="countdown-container" style="${p.countdown && p.countdown.toLowerCase() === 'yes' ? '' : 'display:none'}">
+                        <div id="countdown-container" style="${isYes(p.countdown) ? '' : 'display:none'}">
                              <div class="countdown-wrap">
                                  <div class="countdown-title">🔥 Fin de l'offre dans :</div>
                                  <div class="countdown-timer">
@@ -436,7 +437,7 @@ const renderProduct = (p) => {
                              </div>
                         </div>
 
-                        ${p.bundle && p.bundle.toLowerCase() === 'yes' ? `
+                        ${isYes(p.bundle) ? `
                             <div class="bundle-wrap">
                                 <div class="bundle-hdr">🎁 Sélectionnez votre Offre</div>
                                 <div id="bundle-options">
@@ -527,7 +528,7 @@ const renderProduct = (p) => {
                                 ` : ''}
                             </div>
 
-                            ${p.showQuantity && p.showQuantity.toLowerCase() === 'yes' && p.bundle && p.bundle.toLowerCase() !== 'yes' ? `
+                            ${isYes(p.showQuantity) && !isYes(p.bundle) ? `
                                 <div class="qty-action-wrap">
                                     <label class="qty-action-lbl" for="manual-qty">Quantité</label>
                                     <div class="qty-box">
@@ -552,7 +553,7 @@ const renderProduct = (p) => {
                                 </div>
                             </div>
 
-                            <button type="submit" class="submit-btn ${p.animated && p.animated.toLowerCase() === 'yes' ? 'animated-yes' : ''}" id="submitBtn">
+                            <button type="submit" class="submit-btn ${isYes(p.animated) ? 'animated-yes' : ''}" id="submitBtn">
                                 <i class="fa fa-lock"></i> Valider Ma Commande Maintenant
                             </button>
                             <div class="pay-icons" style="margin-top: 16px; gap: 8px;">
@@ -917,11 +918,11 @@ const renderProductForm = (p = null) => {
                     <div class="form-group">
                         <label class="form-label">Bundle Offer?</label>
                         <select class="form-control" id="p-bundle">
-                            <option value="no" ${p?.bundle === 'no' ? 'selected' : ''}>No</option>
-                            <option value="yes" ${p?.bundle === 'yes' ? 'selected' : ''}>Yes</option>
+                            <option value="no" ${!isYes(p?.bundle) ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isYes(p?.bundle) ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
-                    <div class="form-group" id="offres-group" style="${p?.bundle === 'yes' ? '' : 'display:none'}">
+                    <div class="form-group" id="offres-group" style="${isYes(p?.bundle) ? '' : 'display:none'}">
                         <label class="form-label">Bundle Offers (one per line: <code>qty,price,oldPrice,title</code>)</label>
                         <textarea class="form-control" id="p-offres" style="height:120px; font-family:monospace; font-size:13px;" placeholder="1,19900,29900,1 Exemplaire (Offre Découverte)&#10;2,34900,59800,2 Exemplaires (Offre Duo)&#10;3,49900,89700,3 Exemplaires (Offre Famille)">${(p?.offres || []).map(o => `${o.qty},${o.price},${o.oldPrice},${o.title}`).join('\n')}</textarea>
                         <small style="color:var(--gray-500); font-size:12px;">Format: <strong>quantity,price,old_price,title</strong> — one offer per line</small>
@@ -929,43 +930,43 @@ const renderProductForm = (p = null) => {
                     <div class="form-group">
                         <label class="form-label">Show Countdown?</label>
                         <select class="form-control" id="p-countdown">
-                            <option value="NO" ${p?.countdown === 'NO' ? 'selected' : ''}>No</option>
-                            <option value="yes" ${p?.countdown === 'yes' ? 'selected' : ''}>Yes</option>
+                            <option value="NO" ${!isYes(p?.countdown) ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isYes(p?.countdown) ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Animated CTA?</label>
                         <select class="form-control" id="p-animated">
-                            <option value="no" ${p?.animated === 'no' ? 'selected' : ''}>No</option>
-                            <option value="yes" ${p?.animated === 'yes' ? 'selected' : ''}>Yes</option>
+                            <option value="no" ${!isYes(p?.animated) ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isYes(p?.animated) ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Landing Page Mode?</label>
                         <select class="form-control" id="p-isLandingPage">
-                            <option value="no" ${p?.isLandingPage === 'no' ? 'selected' : ''}>No</option>
-                            <option value="yes" ${p?.isLandingPage === 'yes' ? 'selected' : ''}>Yes</option>
+                            <option value="no" ${!isYes(p?.isLandingPage) ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isYes(p?.isLandingPage) ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Dark Mode?</label>
                         <select class="form-control" id="p-modeBlack">
-                            <option value="no" ${p?.modeBlack === 'no' ? 'selected' : ''}>No</option>
-                            <option value="yes" ${p?.modeBlack === 'yes' ? 'selected' : ''}>Yes</option>
+                            <option value="no" ${!isYes(p?.modeBlack) ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isYes(p?.modeBlack) ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Show Quantity Picker?</label>
                         <select class="form-control" id="p-showQuantity">
-                            <option value="NO" ${p?.showQuantity === 'NO' ? 'selected' : ''}>No</option>
-                            <option value="yes" ${p?.showQuantity === 'yes' ? 'selected' : ''}>Yes</option>
+                            <option value="NO" ${!isYes(p?.showQuantity) ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isYes(p?.showQuantity) ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Social Proof Popup? 🔥</label>
                         <select class="form-control" id="p-socialPopup">
-                            <option value="no" ${!p?.socialPopup || p?.socialPopup === 'no' ? 'selected' : ''}>No</option>
-                            <option value="yes" ${p?.socialPopup === 'yes' ? 'selected' : ''}>Yes</option>
+                            <option value="no" ${!p?.socialPopup || !isYes(p?.socialPopup) ? 'selected' : ''}>No</option>
+                            <option value="yes" ${isYes(p?.socialPopup) ? 'selected' : ''}>Yes</option>
                         </select>
                     </div>
                 </div>
@@ -1437,7 +1438,7 @@ const setupProductEvents = (p) => {
     if (!p.socialPopup || p.socialPopup.toLowerCase() !== 'no') initSocialProof(p);
 
     // --- GALLERY ---
-    if ((Array.isArray(p.gallery) && p.gallery.length > 0) || p.gallery === 'yes') {
+    if ((Array.isArray(p.gallery) && p.gallery.length > 0) || isYes(p.gallery)) {
         const images = [p.featuredImage, ...(Array.isArray(p.gallery) ? p.gallery : (p.images || []))];
         const mainImg = document.getElementById('ig-main-img');
         const thumbs = document.querySelectorAll('.ig-thumb');
@@ -1507,7 +1508,7 @@ const setupProductEvents = (p) => {
     };
 
     // --- BUNDLES ---
-    if (p.bundle === 'yes') {
+    if (isYes(p.bundle)) {
         const bundleOpts = document.querySelectorAll('.bundle-opt');
         state.isBundle = true;
         bundleOpts.forEach(opt => {
@@ -1542,7 +1543,7 @@ const setupProductEvents = (p) => {
     }
 
     // --- COUNTDOWN ---
-    if (p.countdown === 'yes') {
+    if (isYes(p.countdown)) {
         let timer = 900; // 15 mins
         const minEl = document.getElementById('cd-min');
         const secEl = document.getElementById('cd-sec');
@@ -1713,7 +1714,7 @@ const setupProductEvents = (p) => {
     // --- EXIT INTENT ---
     let remiseShown = false;
     const remiseConfig = (p.remisePopup || "no, 5").split(',').map(s => s.trim());
-    const remiseEnabled = remiseConfig[0] === 'yes';
+    const remiseEnabled = isYes(remiseConfig[0]);
     const remisePercent = parseInt(remiseConfig[1]) || 5;
 
     const showRemise = () => {
