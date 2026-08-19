@@ -667,7 +667,7 @@
       { "qty": 2, "price": 440000, "oldPrice": 570000, "title": "🥈 ⭐ 2 Boîtes De Rangement Pour Vêtements" },
       { "qty": 3, "price": 520000, "oldPrice": 650000, "title": "🥇 ⭐ 3 Boîtes De Rangement Pour Vêtements" }
     ],
-    "countdown": "YES",
+    "countdown": "NO",
     "animated": "yes",
     "isLandingPage": "no",
     "modeBlack": "no",
