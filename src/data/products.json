@@ -9,7 +9,7 @@
     "stock": "25",
     "code": "COD05813",
     "whatsapp": "2250701825463",
-    "pays": "CI,BF,TD,ML,GA,BJ,CG",
+    "pays": "CI,SN,BF,TD,ML,GA,BJ,CG",
     "bundle": "no",
     "offres": [
       { "qty": 1, "price": 22500, "oldPrice": 29900, "title": "1 Exemplaire (Offre Découverte)" },
@@ -347,7 +347,7 @@
     "stock": "25",
     "code": "COD11405",
     "whatsapp": "2250701825463",
-    "pays": "CI,GA,ML,TD,CG",
+    "pays": "CI,SN,GA,ML,TD,CG",
     "bundle": "yes",
      "offres": [
       { "qty": 1, "price": 15900, "oldPrice": 21900, "title": "🥉1 Genouillère Flytex™" },
