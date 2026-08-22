@@ -71,7 +71,7 @@
   {
     "id": "kine-rdc",
     "title": "🚨🚨 PROMO !!! Dispositif Clinique : Kiné-sciatique™ - Ceinture de soutien pour la hanche – Soulagement de la sciatique ",
-    "price": 32,
+    "price": 29,
     "priceOld": 49,
     "currency": "$",
     "category": "health",
@@ -374,7 +374,7 @@
   {
     "id": "flytex-gn",
     "title": "FlyTex™ – Genouillère de compression thermique pour maintien du genou",
-    "price": 290000,
+    "price": 250000,
     "priceOld": 349000,
     "currency": "GNF",
     "category": "education",
@@ -384,7 +384,7 @@
     "pays": "GN",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 290000, "oldPrice": 349000, "title": "🥉1 Genouillère Flytex™" },
+      { "qty": 1, "price": 250000, "oldPrice": 349000, "title": "🥉1 Genouillère Flytex™" },
       { "qty": 2, "price": 320000, "oldPrice": 420000, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
       { "qty": 4, "price": 450000, "oldPrice": 680000, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite (4 Pièces)" }
     ],
@@ -442,7 +442,7 @@
   {
     "id": "flytex-rdc",
     "title": "FlyTex™ – Genouillère de compression thermique pour maintien du genou",
-    "price": 32,
+    "price": 29,
     "priceOld": 42,
     "currency": "$",
     "category": "education",
@@ -453,9 +453,9 @@
     "pays": "CD",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 32, "oldPrice": 42, "title": "🥉1 Genouillère Flytex™" },
-      { "qty": 2, "price": 44, "oldPrice": 72, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
-      { "qty": 4, "price": 59, "oldPrice": 144, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite  (4 Pièces)" }
+      { "qty": 1, "price": 29, "oldPrice": 42, "title": "🥉1 Genouillère Flytex™" },
+      { "qty": 2, "price": 42, "oldPrice": 72, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
+      { "qty": 4, "price": 55, "oldPrice": 144, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite  (4 Pièces)" }
     ],
     "countdown": "NO",
     "animated": "yes",
