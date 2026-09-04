@@ -2,7 +2,7 @@
   {
     "id": "kine",
     "title": "🚨🚨 PROMO !!! Dispositif Clinique : Kiné-sciatique™ - Ceinture de soutien pour la hanche – Soulagement de la sciatique",
-    "price": 15900,
+    "price": 19900,
     "priceOld": 29900,
     "currency": "CFA",
     "category": "Électronique",
@@ -37,7 +37,7 @@
   {
     "id": "kine-gn",
     "title": "🚨🚨 PROMO !!! Dispositif Clinique : Kiné-sciatique™ - Ceinture de soutien pour la hanche – Soulagement de la sciatique",
-    "price": 290000,
+    "price": 300000,
     "priceOld": 490000,
     "currency": "GNF",
     "category": "health",
@@ -100,7 +100,7 @@
   {
     "id": "alphabook",
     "title": "🚨🚨 PROMO !!! Alphabook™ ORIGINAL - 4 Cahiers d’écriture réutilisables – apprentissage de l’écriture pour l’enfant avec Magic Pen",
-    "price": 13900,
+    "price": 16900,
     "priceOld": 24900,
     "currency": "CFA",
     "category": "education",
@@ -110,9 +110,9 @@
     "pays": "BJ,CG,TG",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 13900, "oldPrice": 24900, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
-      { "qty": 2, "price": 19900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
-      { "qty": 3, "price": 24000, "oldPrice": 43000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
+      { "qty": 1, "price": 16900, "oldPrice": 24900, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
+      { "qty": 2, "price": 21900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
+      { "qty": 3, "price": 27000, "oldPrice": 43000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
     ],
     "countdown": "NO",
     "animated": "yes",
@@ -134,7 +134,7 @@
   {
     "id": "alphabook-gn",
     "title": "Alphabook™ ORIGINAL - 4 Cahiers d’écriture réutilisables – apprentissage de l’écriture pour l’enfant avec Magic Pen",
-    "price": 285000,
+    "price": 290000,
     "priceOld": 370000,
     "currency": "GNF",
     "category": "education",
@@ -144,7 +144,7 @@
     "pays": "GN",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 285000, "oldPrice": 370000, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
+      { "qty": 1, "price": 290000, "oldPrice": 370000, "title": "🥉1 Kit (4 Cahiers d’écriture réutilisables)" },
       { "qty": 2, "price": 340000, "oldPrice": 540000, "title": "🥈 ⭐ 2 Kit (8 Cahiers d’écriture réutilisables)" },
       { "qty": 3, "price": 390000, "oldPrice": 810000, "title": "🥇 ⭐ 3 Kit (12 Cahiers d’écriture réutilisables)" }
     ],
@@ -247,9 +247,9 @@
     "pays": "CI",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 14900, "oldPrice": 21900, "title": "🥉4 Livres Magique à l’Eau + 4 Stylos Gratuits" },
-      { "qty": 2, "price": 21900, "oldPrice": 35800, "title": "🥈 ⭐ 8 Livres Magiques à l’Eau + 8 Stylos Gratuits" },
-      { "qty": 3, "price": 26900, "oldPrice": 53700, "title": "🥇 ⭐ 12 Livres Magiques à l’Eau + 12 Stylos Gratuits" }
+      { "qty": 1, "price": 14900, "oldPrice": 21900, "title": "🥉4 Livres Magique à l’Eau" },
+      { "qty": 2, "price": 21900, "oldPrice": 35800, "title": "🥈 ⭐ 8 Livres Magiques à l’Eau" },
+      { "qty": 3, "price": 26900, "oldPrice": 53700, "title": "🥇 ⭐ 12 Livres Magiques à l’Eau" }
     ],
     "countdown": "NO",
     "animated": "yes",
@@ -340,7 +340,7 @@
   {
     "id": "flytex",
     "title": "FlyTex™ – Genouillère de compression thermique pour maintien du genou",
-    "price": 15900,
+    "price": 16900,
     "priceOld": 21900,
     "currency": "CFA",
     "category": "education",
@@ -350,8 +350,8 @@
     "pays": "CI,SN,GA,ML,TD,CG",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 15900, "oldPrice": 21900, "title": "🥉1 Genouillère Flytex™" },
-      { "qty": 2, "price": 21900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
+      { "qty": 1, "price": 16900, "oldPrice": 21900, "title": "🥉1 Genouillère Flytex™" },
+      { "qty": 2, "price": 22500, "oldPrice": 35000, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
       { "qty": 4, "price": 35900, "oldPrice": 71000, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite (4 Pièces)"  }
     ],
     "countdown": "NO",
@@ -385,7 +385,7 @@
     "bundle": "yes",
      "offres": [
       { "qty": 1, "price": 280000, "oldPrice": 349000, "title": "🥉1 Genouillère Flytex™" },
-      { "qty": 2, "price": 320000, "oldPrice": 420000, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
+      { "qty": 2, "price": 340000, "oldPrice": 420000, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
       { "qty": 4, "price": 450000, "oldPrice": 680000, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite (4 Pièces)" }
     ],
     "countdown": "NO",
@@ -408,7 +408,7 @@
   {
     "id": "luxevue",
     "title": "LuxeVue™ — Lunettes Premium Anti-Lumière Bleue",
-    "price": 13500,
+    "price": 12500,
     "priceOld": 22900,
     "currency": "CFA",
     "category": "education",
@@ -418,7 +418,7 @@
     "pays": "CI",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 13500, "oldPrice": 22900, "title": "🥉 1 Lunette LuxeVue™" },
+      { "qty": 1, "price": 12500, "oldPrice": 22900, "title": "🥉 1 Lunette LuxeVue™" },
       { "qty": 2, "price": 19900, "oldPrice": 35000, "title": "🥈 ⭐ 2  Lunettes LuxeVue™" },
       { "qty": 3, "price": 22000, "oldPrice": 43000, "title": "🥇 ⭐ 3  Lunettes LuxeVue™" }
     ],
@@ -442,7 +442,7 @@
   {
     "id": "flytex-rdc",
     "title": "FlyTex™ – Genouillère de compression thermique pour maintien du genou",
-    "price": 29,
+    "price": 32,
     "priceOld": 42,
     "currency": "$",
     "category": "education",
@@ -453,7 +453,7 @@
     "pays": "CD",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 29, "oldPrice": 42, "title": "🥉1 Genouillère Flytex™" },
+      { "qty": 1, "price": 32, "oldPrice": 42, "title": "🥉1 Genouillère Flytex™" },
       { "qty": 2, "price": 42, "oldPrice": 72, "title": "🥈 ⭐ 2 Genouillère Flytex™ - 1 Paire (Offre Recommandé)" },
       { "qty": 4, "price": 55, "oldPrice": 144, "title": "🥇 ⭐ Achetez 2 – Obtenez 2 Pièces Gratuite  (4 Pièces)" }
     ],
@@ -511,7 +511,7 @@
   {
     "id": "convert-gn",
     "title": "ConvertPlus™ - Multiprise Rotative Universel - Vendu Par Paire",
-    "price": 225000,
+    "price": 250000,
     "priceOld": 290000,
     "currency": "GNF",
     "category": "GADGET",
@@ -521,8 +521,8 @@
     "pays": "GN",
     "bundle": "yes",
      "offres": [
-      { "qty": 2, "price": 225000, "oldPrice": 290000, "title": "🥉 Achetez 1 – Obtenez la 2ᵉ GRATUITE" },
-      { "qty": 4, "price": 260000, "oldPrice": 500000, "title": "🥈⭐ Achetez 2 – Obtenez 2 Pièces GRATUITES (Offre Recommandé)" },
+      { "qty": 2, "price": 200000, "oldPrice": 290000, "title": "🥉 Achetez 1 – Obtenez la 2ᵉ GRATUITE" },
+      { "qty": 4, "price": 280000, "oldPrice": 500000, "title": "🥈⭐ Achetez 2 – Obtenez 2 Pièces GRATUITES (Offre Recommandé)" },
       { "qty": 6, "price": 390000, "oldPrice": 650000, "title": "🥇⭐ Achetez 3 – Obtenez 3 Pièces GRATUITES" }
     ],
     "countdown": "NO",
@@ -580,7 +580,7 @@
   {
     "id": "flexitoe",
     "title": "✅FlexiToe™ - Voici comment j’ai soulagé et redressé mon oignon en quelques semaines, sans médicament ni opération",
-    "price": 15900,
+    "price": 13900,
     "priceOld": 24900,
     "currency": "FCFA",
     "category": "education",
@@ -590,7 +590,7 @@
     "pays": "BJ,GA",
     "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 15900, "oldPrice": 24900, "title": "🥉 1 Attelle Correctrice d’Oignon FlexiToe™" },
+      { "qty": 1, "price": 13900, "oldPrice": 24900, "title": "🥉 1 Attelle Correctrice d’Oignon FlexiToe™" },
       { "qty": 2, "price": 24900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Attelle Correctrice d’Oignon FlexiToe™" },
       { "qty": 3, "price": 30000, "oldPrice": 43000, "title": "🥇 ⭐ 3 Attelle Correctrice d’Oignon FlexiToe™" }
     ],
@@ -688,7 +688,7 @@
   {
     "id": "sac-ra",
     "title": "Organisateur de Lit Suspendu en Feutre - Acheter 1 Le Deuxieme Gratuit",
-    "price": 13900,
+    "price": 11900,
     "priceOld": 20000,
     "currency": "FCFA",
     "category": "montres",
@@ -698,9 +698,9 @@
     "pays": "CI",
     "bundle": "YES",
      "offres": [
-      { "qty": 2, "price": 13900, "oldPrice": 20000, "title": "🥉 2 Organisateur de Lit Suspendu" },
-      { "qty": 4, "price": 21900, "oldPrice": 26900, "title": "🥈 ⭐ 4 Organisateur de Lit Suspendu" },
-      { "qty": 6, "price": 29000, "oldPrice": 35000, "title": "🥇 ⭐ 6 Organisateur de Lit Suspendu" }
+      { "qty": 1, "price": 11900, "oldPrice": 20000, "title": "🥉 1 Organisateur de Lit Suspendu" },
+      { "qty": 2, "price": 17900, "oldPrice": 26900, "title": "🥈 ⭐ 2 Organisateur de Lit Suspendu" },
+      { "qty": 4, "price": 22000, "oldPrice": 35000, "title": "🥇 ⭐ 4 Organisateur de Lit Suspendu" }
     ],
     "countdown": "NO",
     "animated": "yes",
