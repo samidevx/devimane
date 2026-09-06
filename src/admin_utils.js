@@ -1,28 +1,40 @@
-import { adminState } from './admin/admin_state.js';
+import productsData from './data/products.json';
 
 export const adminUtils = {
-    // Read from adminState (which checks localStorage first, then bundled products.json)
+    // Always read directly from static products.json
     getProducts: () => {
-        return adminState.getProducts();
+        return productsData;
     },
 
-    // Add or Update a product with instant persistence
+    // Add or Update a product (in-memory only, use exportJSON to persist)
     upsertProduct: (product) => {
-        return adminState.upsertProduct(product);
+        const index = productsData.findIndex(p => p.id === product.id);
+        if (index > -1) {
+            productsData[index] = product;
+        } else {
+            productsData.push(product);
+        }
     },
 
-    // Delete a product with instant persistence
+    // Delete a product (in-memory only, use exportJSON to persist)
     deleteProduct: (id) => {
-        return adminState.deleteProduct(id);
+        const index = productsData.findIndex(p => p.id === id);
+        if (index > -1) productsData.splice(index, 1);
     },
 
     // Export current products as a downloadable products.json
     exportJSON: () => {
-        return adminState.exportJSON();
+        return JSON.stringify(productsData, null, 2);
     },
 
-    // Fetch orders (reads from adminState)
-    fetchOrders: async () => {
-        return adminState.getOrders();
+    // Fetch orders (falls back to sessionStorage for recent orders)
+    fetchOrders: async (webhookUrl) => {
+        try {
+            const response = await fetch(webhookUrl);
+            if (response.ok) return await response.json();
+            return JSON.parse(sessionStorage.getItem('captured_orders') || '[]');
+        } catch (e) {
+            return JSON.parse(sessionStorage.getItem('captured_orders') || '[]');
+        }
     }
 };
