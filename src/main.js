@@ -27,6 +27,11 @@ let state = {
 
 // --- UTILS ---
 const isYes = (val) => Boolean(val && val.toString().trim().toLowerCase() === 'yes');
+const isResume = (val) => {
+    if (val === undefined || val === null || val === '') return true;
+    const s = val.toString().trim().toLowerCase();
+    return s !== 'false' && s !== 'no' && s !== '0';
+};
 const fmtPrice = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const optimizeBloggerImg = (url, size = '600') => {
     if (!url || !url.includes('blogger.googleusercontent.com')) return url;
@@ -507,12 +512,14 @@ const renderProduct = (p) => {
                                 </div>
                             </div>
 
+                            ${isResume(p.resume) ? `
                             <div class="confirm-box">
                                 <label>
                                     <input type="checkbox" checked required style="width: 19px; height: 19px; accent-color: var(--green); margin-top: 2px; flex-shrink: 0; cursor: pointer;">
                                     <span>Je confirme ma disponibilité pour recevoir l'appel de confirmation et régler la commande à la livraison.</span>
                                 </label>
                             </div>
+                            ` : ''}
 
                             <div class="form-row">
                                 ${p.couleur ? `
@@ -545,6 +552,7 @@ const renderProduct = (p) => {
                                 </div>
                             ` : ''}
 
+                            ${isResume(p.resume) ? `
                             <div class="order-summary">
                                 <div class="sum-row"><span>Prix sous-total</span> <span>${fmtPrice(state.price)} ${p.currency}</span></div>
                                 <div class="sum-row"><span>Quantité commandée</span> <span id="sum-qty">${state.quantity}</span></div>
@@ -558,6 +566,7 @@ const renderProduct = (p) => {
                                     <span id="sum-total">${fmtPrice(state.price)} ${p.currency}</span>
                                 </div>
                             </div>
+                            ` : ''}
 
                             <button type="submit" class="submit-btn ${isYes(p.animated) ? 'animated-yes' : ''}" id="submitBtn">
                                 <i class="fa fa-lock"></i> Valider Ma Commande Maintenant
@@ -969,6 +978,13 @@ const renderProductForm = (p = null) => {
                         </select>
                     </div>
                     <div class="form-group">
+                        <label class="form-label">Afficher le Résumé & Confirmation (Resume)?</label>
+                        <select class="form-control" id="p-resume">
+                            <option value="true" ${isResume(p?.resume) ? 'selected' : ''}>True (Afficher)</option>
+                            <option value="false" ${!isResume(p?.resume) ? 'selected' : ''}>False (Masquer)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label class="form-label">Social Proof Popup? 🔥</label>
                         <select class="form-control" id="p-socialPopup">
                             <option value="no" ${!p?.socialPopup || !isYes(p?.socialPopup) ? 'selected' : ''}>No</option>
@@ -1248,6 +1264,7 @@ const setupAdminEvents = () => {
                 isLandingPage: document.getElementById('p-isLandingPage').value,
                 modeBlack: document.getElementById('p-modeBlack').value,
                 showQuantity: document.getElementById('p-showQuantity').value,
+                resume: document.getElementById('p-resume').value,
                 couleur: document.getElementById('p-couleur').value,
                 taille: document.getElementById('p-taille').value,
                 remisePopup: document.getElementById('p-remisePopup').value,
@@ -1490,11 +1507,16 @@ const setupProductEvents = (p) => {
     const updateOrderSummary = () => {
         // For bundles: price already covers all units — don't multiply by qty
         const total = state.isBundle ? state.price : state.price * state.quantity;
-        document.getElementById('sum-qty').innerText = state.quantity;
-        document.getElementById('sum-total').innerText = fmtPrice(total) + ' ' + p.currency;
+        const sumQty = document.getElementById('sum-qty');
+        if (sumQty) sumQty.innerText = state.quantity;
+
+        const sumTotal = document.getElementById('sum-total');
+        if (sumTotal) sumTotal.innerText = fmtPrice(total) + ' ' + p.currency;
+
         // Also update the "Prix du produit" row to show the selected offer price
-        const priceRow = document.querySelector('.order-summary .sum-row:first-child span:last-child');
+        const priceRow = document.querySelector('#orderForm .order-summary .sum-row:first-child span:last-child');
         if (priceRow) priceRow.innerText = fmtPrice(state.price) + ' ' + p.currency;
+
         if (document.getElementById('manual-qty')) document.getElementById('manual-qty').value = state.quantity;
 
         // --- Savings callout ---
