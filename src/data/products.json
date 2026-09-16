@@ -58,6 +58,7 @@
     "isLandingPage": "yes",
     "modeBlack": "no",
     "showQuantity": "NO",
+    "resume": "false",
     "couleur": "",
     "taille": "",
     "remisePopup": "NO, 5",
