@@ -221,8 +221,7 @@ const renderHome = () => {
     const products = adminUtils.getProducts();
     app.innerHTML = `
         <div class="topbar">
-            <span><i class="fa fa-truck"></i> Livraison Gratuite</span>
-            <span><i class="fa fa-rotate-left"></i> Retour 7 jours</span>
+            <span><i class="fa fa-truck"></i> Livraison Gratuite Partout</span>
         </div>
         <header class="site-header">
             <div class="header-inner">
@@ -317,9 +316,7 @@ const renderProduct = (p) => {
     const app = document.getElementById('app');
     app.innerHTML = `
         <div class="topbar">
-            <span><i class="fa fa-truck"></i> Livraison Offerte Partout</span>
-            <span><i class="fa fa-shield-halved"></i> Paiement à la Réception</span>
-            <span><i class="fa fa-rotate-left"></i> Satisfait ou Remboursé 7 Jours</span>
+            <span><i class="fa fa-truck"></i> Livraison Gratuite Partout</span>
         </div>
         <header class="site-header" style="${isLP ? 'display:none' : ''}">
             <div class="header-inner">
