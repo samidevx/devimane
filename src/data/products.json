@@ -743,9 +743,9 @@
     "pays": "TD",
     "bundle": "no",
      "offres": [
-      { "qty": 1, "price": 11900, "oldPrice": 20000, "title": "🥉 1 Organisateur de Lit Suspendu" },
-      { "qty": 2, "price": 17900, "oldPrice": 26900, "title": "🥈 ⭐ 2 Organisateur de Lit Suspendu" },
-      { "qty": 4, "price": 22000, "oldPrice": 35000, "title": "🥇 ⭐ 4 Organisateur de Lit Suspendu" }
+      { "qty": 1, "price": 19900, "oldPrice": 30000, "title": "🥉 1 Duo de Montres et Bracelets(4 Pièces)" },
+      { "qty": 2, "price": 29000, "oldPrice": 39000, "title": "🥈 ⭐ 2 Duo de Montres et Bracelets(8 Pièces)" },
+      { "qty": 3, "price": 37900, "oldPrice": 57000, "title": "🥇 ⭐ 3 Duo de Montres et Bracelets(12 Pièces)" }
     ],
     "countdown": "yes",
     "animated": "yes",
@@ -772,18 +772,18 @@
     "id": "duo-watch-gn",
     "title": "✨ Brillez Ensemble : Duo de Montres et Bracelets Assortis pour Couple",
     "price":  320000,
-    "priceOld": 45000,
+    "priceOld": 450000,
     "currency": "GNF",
     "category": "montres",
     "stock": "30",
     "code": "COD24814",
     "whatsapp": "2250701825463",
     "pays": "GN",
-    "bundle": "no",
+    "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 11900, "oldPrice": 20000, "title": "🥉 1 Organisateur de Lit Suspendu" },
-      { "qty": 2, "price": 17900, "oldPrice": 26900, "title": "🥈 ⭐ 2 Organisateur de Lit Suspendu" },
-      { "qty": 4, "price": 22000, "oldPrice": 35000, "title": "🥇 ⭐ 4 Organisateur de Lit Suspendu" }
+      { "qty": 1, "price": 320000, "oldPrice": 450000, "title": "🥉 1 Duo de Montres et Bracelets(4 Pièces)" },
+      { "qty": 2, "price": 480000, "oldPrice": 640000, "title": "🥈 ⭐ 2 Duo de Montres et Bracelets(8 Pièces)" },
+      { "qty": 3, "price": 590000, "oldPrice": 750000, "title": "🥇 ⭐ 3 Duo de Montres et Bracelets(12 Pièces)" }
     ],
     "countdown": "yes",
     "animated": "yes",
