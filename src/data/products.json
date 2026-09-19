@@ -741,7 +741,7 @@
     "code": "COD24814",
     "whatsapp": "2250701825463",
     "pays": "TD",
-    "bundle": "YES",
+    "bundle": "no",
      "offres": [
       { "qty": 1, "price": 19900, "oldPrice": 30000, "title": "🥉 1 Duo de Montres et Bracelets(4 Pièces)" },
       { "qty": 2, "price": 29000, "oldPrice": 39000, "title": "🥈 ⭐ 2 Duo de Montres et Bracelets(8 Pièces)" },
@@ -779,7 +779,7 @@
     "code": "COD24814",
     "whatsapp": "2250701825463",
     "pays": "GN",
-    "bundle": "yes",
+    "bundle": "no",
      "offres": [
       { "qty": 1, "price": 320000, "oldPrice": 450000, "title": "🥉 1 Duo de Montres et Bracelets(4 Pièces)" },
       { "qty": 2, "price": 480000, "oldPrice": 640000, "title": "🥈 ⭐ 2 Duo de Montres et Bracelets(8 Pièces)" },
