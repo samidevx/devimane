@@ -3215,3 +3215,13 @@ body.mode-nuit .policy-modal-content {
 body.mode-nuit .policy-modal-content strong {
   color: #f1f5f9;
 }
+
+/* Auto-appended contact/help image at end of every product description */
+.contact-commande-img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 24px auto !important;
+  border-radius: 12px;
+}

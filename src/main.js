@@ -9,6 +9,8 @@ const COUNTRY_MAP = {
     "ML": "Mali", "GA": "Gabon", "CM": "Cameroun", "NE": "Niger", "CG": "Congo Brazzaville",
     "CD": "Congo Kinshasa", "GN": "Guinée", "TD": "Chad"
 };
+// Contact/help image appended automatically at the end of every product description.
+const CONTACT_IMAGE_SRC = "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj64Ppd3qIr0cpysm6Lbw2kCFQe0nUo7gLihS1YQ3EW-pnrD_wTaUQ_fYo99Z6bPHDDM6_-IE3_P526eskkyCv_NFTP37v7l8CqbbvTeq-sB7DWJnwgqfLIOOG27214C3Vl-wlY2N-58Ggosc_3BGKWASXS2v6fwE4wo7Y4cRgNu6uZ4v-pBQLuv0YnMdo/s1600/ChatGPT%20Image%20Sep%2020,%202026%20at%2001_10_33%20AM.webp";
 
 // --- STATE ---
 let state = {
@@ -36,6 +38,13 @@ const fmtPrice = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 const optimizeBloggerImg = (url, size = '600') => {
     if (!url || !url.includes('blogger.googleusercontent.com')) return url;
     return url.replace(/\/s\d+\//, `/w${size}/`).replace(/\/s\d+$/, `/w${size}`);
+};
+// Append the "Comment faire la commande ?" contact image to every product description.
+// Skips if already present to avoid duplicates when description already contains it.
+const withContactImage = (desc = '') => {
+    if (!desc) desc = '';
+    if (desc.includes('contact-commande-img') || desc.includes(CONTACT_IMAGE_SRC)) return desc;
+    return `${desc}<img src="${CONTACT_IMAGE_SRC}" alt="Comment faire la commande ? C'est simple et rapide !" loading="lazy" class="block-img contact-commande-img" />`;
 };
 
 window.openPolicyModal = (type) => {
@@ -333,7 +342,7 @@ const renderProduct = (p) => {
         <main class="product-page">
             ${isLP ? `<div class="prod-desc landing-mode-desc" style="margin-top:0; margin-bottom: 24px;">
                 <div id="d-desc-content">${(() => {
-                let desc = p.description;
+                let desc = withContactImage(p.description);
                 // For LP, the first image is likely the LCP. Let's make it eager and optimized.
                 let imgCount = 0;
                 return desc.replace(/<img([^>]+)>/gi, (match, attrs) => {
@@ -640,7 +649,7 @@ const renderProduct = (p) => {
             const descEl = document.getElementById('d-desc-content');
             if (!descEl) return;
             // Strip competing fetchpriority=high from description images & ensure lazy loading
-            let cleanDesc = p.description.replace(/fetchpriority="high"/gi, 'loading="lazy"');
+            let cleanDesc = withContactImage(p.description).replace(/fetchpriority="high"/gi, 'loading="lazy"');
             cleanDesc = cleanDesc.replace(/<img([^>]+)>/gi, (match, attrs) => {
                 // Auto-fill alt if missing or empty
                 if (!/alt\s*=\s*["'][^"']+["']/i.test(attrs)) {
