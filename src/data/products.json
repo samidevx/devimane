@@ -747,7 +747,7 @@
       { "qty": 2, "price": 29000, "oldPrice": 39000, "title": "🥈 ⭐ 2 Duo de Montres et Bracelets(8 Pièces)" },
       { "qty": 3, "price": 37900, "oldPrice": 57000, "title": "🥇 ⭐ 3 Duo de Montres et Bracelets(12 Pièces)" }
     ],
-    "countdown": "yes",
+    "countdown": "no",
     "animated": "yes",
     "isLandingPage": "no",
     "modeBlack": "no",
