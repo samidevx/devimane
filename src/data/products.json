@@ -624,14 +624,14 @@
   {
     "id": "luckyfox",
     "title": "✅LuckyFOX™ - 4 montres pour femmes, 4 saisons, 4 couleurs",
-    "price": 24900,
+    "price": 22900,
     "priceOld": 39900,
     "currency": "FCFA",
     "category": "montres",
     "stock": "25",
     "code": "COD25192",
     "whatsapp": "",
-    "pays": "TD",
+    "pays": "TD,SN",
     "bundle": "no",
      "offres": [
       { "qty": 1, "price": 22500, "oldPrice": 29900, "title": "🥉 1 Attelle Correctrice d’Oignon FlexiToe™" },
