@@ -226,9 +226,8 @@ const renderHome = () => {
         <header class="site-header">
             <div class="header-inner">
                 <div class="header-spacer"></div>
-                <a href="/" class="site-logo">
-                    <div class="site-logo-icon">🛒</div>
-                    Lina Night Wear
+                <a href="/" class="site-logo" aria-label="LP Shop Africa">
+                    <img src="/logo.png" alt="LP Shop Africa" class="site-logo-img" />
                 </a>
                 <div class="header-spacer" style="display:flex; justify-content:flex-end;">
                     <button class="mode-toggle" id="dark-mode-toggle" aria-label="Changer le thème"><i class="fa fa-moon"></i><i class="fa fa-sun"></i></button>
@@ -321,9 +320,8 @@ const renderProduct = (p) => {
         <header class="site-header" style="${isLP ? 'display:none' : ''}">
             <div class="header-inner">
                 <div class="header-spacer"></div>
-                <a href="/" class="site-logo">
-                    <div class="site-logo-icon"><i class="fa fa-bag-shopping"></i></div>
-                    LP Shop Africa
+                <a href="/" class="site-logo" aria-label="LP Shop Africa">
+                    <img src="/logo.png" alt="LP Shop Africa" class="site-logo-img" />
                 </a>
                 <div class="header-spacer" style="display:flex; justify-content:flex-end;">
                     <button class="mode-toggle" id="dark-mode-toggle" aria-label="Changer le thème"><i class="fa fa-moon"></i><i class="fa fa-sun"></i></button>
@@ -708,9 +706,7 @@ const renderFooter = () => `
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand-emblem">
-                <div class="footer-emblem-icon">
-                    <i class="fa fa-bag-shopping"></i>
-                </div>
+                <img src="/logo.png" alt="LP Shop Africa" class="footer-logo-img" />
             </div>
             <h2 class="footer-brand-name">LP Shop Africa</h2>
             <p class="footer-brand-desc">
@@ -816,7 +812,10 @@ const renderAdmin = () => {
     app.innerHTML = `
         <div class="admin-layout">
             <aside class="admin-sidebar">
-                <div class="admin-logo">🛒 Admin Panel</div>
+                <div class="admin-logo">
+                    <img src="/logo.png" alt="LP Shop Africa" class="admin-logo-img" />
+                    <span>Admin Panel</span>
+                </div>
                 <nav class="admin-nav">
                     <a href="/admin" class="admin-nav-item ${path === '/admin' ? 'active' : ''}"><i class="fa fa-chart-line"></i> Analytics</a>
                     <a href="/admin/products" class="admin-nav-item ${path === '/admin/products' ? 'active' : ''}"><i class="fa fa-box"></i> Products</a>
