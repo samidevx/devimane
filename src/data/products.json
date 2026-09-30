@@ -790,7 +790,7 @@
     "isLandingPage": "no",
     "modeBlack": "no",
     "showQuantity": "NO",
-    "resume": "false",
+    "resume": "true",
     "couleur": "",
     "taille": "",
     "remisePopup": "no, 10",
