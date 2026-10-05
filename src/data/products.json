@@ -2,14 +2,14 @@
   {
     "id": "kine",
     "title": "🚨🚨 PROMO !!! Dispositif Clinique : Kiné-sciatique™ - Ceinture de soutien pour la hanche – Soulagement de la sciatique",
-    "price": 19900,
+    "price": 18900,
     "priceOld": 29900,
     "currency": "CFA",
     "category": "Électronique",
     "stock": "25",
     "code": "COD05813",
     "whatsapp": "213776904334",
-    "pays": "CI,SN,BF,ML,GA,NE",
+    "pays": "SN,BF,ML",
     "bundle": "no",
     "offres": [
       { "qty": 1, "price": 22500, "oldPrice": 29900, "title": "1 Exemplaire (Offre Découverte)" },
@@ -39,7 +39,7 @@
   {
     "id": "kine-gn",
     "title": "🚨🚨 PROMO !!! Dispositif Clinique : Kiné-sciatique™ - Ceinture de soutien pour la hanche – Soulagement de la sciatique",
-    "price": 320000,
+    "price": 300000,
     "priceOld": 490000,
     "currency": "GNF",
     "category": "health",
