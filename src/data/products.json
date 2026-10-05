@@ -86,7 +86,7 @@
     "bundle": "no",
     "countdown": "NO",
     "animated": "yes",
-    "isLandingPage": "YES",
+    "isLandingPage": "NO",
     "modeBlack": "no",
     "showQuantity": "NO",
     "couleur": "",
