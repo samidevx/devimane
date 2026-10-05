@@ -322,11 +322,11 @@
     "stock": "25",
     "code": "COD14475",
     "whatsapp": "213776904334",
-    "pays": "CI,GA,ML,TD",
+    "pays": "CI,ML",
     "bundle": "yes",
      "offres": [
-      { "qty": 2, "price": 15900, "oldPrice": 25900, "title": "🥉 Achetez 1 Genouillère NeoFlex – Obtenez la 2ᵉ GRATUITE" },
-      { "qty": 4, "price": 21000, "oldPrice": 36000, "title": "🥈 Achetez 2 Genouillère NeoFlex™ - Obtenez 2 Pièces GRATUITES" },
+      { "qty": 2, "price": 15000, "oldPrice": 25900, "title": "🥉 Achetez 1 Genouillère NeoFlex – Obtenez la 2ᵉ GRATUITE" },
+      { "qty": 4, "price": 22000, "oldPrice": 36000, "title": "🥈 Achetez 2 Genouillère NeoFlex™ - Obtenez 2 Pièces GRATUITES" },
       { "qty": 6, "price": 26000, "oldPrice": 56000, "title": "🥇 Achetez 3 Genouillère NeoFlex™ - Obtenez 3 Pièces GRATUITES" }
     ],
     "countdown": "NO",
