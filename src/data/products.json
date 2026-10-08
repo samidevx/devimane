@@ -589,17 +589,17 @@
   {
     "id": "flexitoe",
     "title": "✅FlexiToe™ - Voici comment j’ai soulagé et redressé mon oignon en quelques semaines, sans médicament ni opération",
-    "price": 21900,
+    "price": 18900,
     "priceOld": 29900,
     "currency": "FCFA",
     "category": "education",
     "stock": "25",
     "code": "COD15278",
     "whatsapp": "213776904334",
-    "pays": "BJ,GA",
+    "pays": "TD,BJ,GA",
     "bundle": "NO",
      "offres": [
-      { "qty": 1, "price": 13900, "oldPrice": 24900, "title": "🥉 1 Attelle Correctrice d’Oignon FlexiToe™" },
+      { "qty": 1, "price": 18900, "oldPrice": 24900, "title": "🥉 1 Attelle Correctrice d’Oignon FlexiToe™" },
       { "qty": 2, "price": 24900, "oldPrice": 35000, "title": "🥈 ⭐ 2 Attelle Correctrice d’Oignon FlexiToe™" },
       { "qty": 3, "price": 30000, "oldPrice": 43000, "title": "🥇 ⭐ 3 Attelle Correctrice d’Oignon FlexiToe™" }
     ],
