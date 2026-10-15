@@ -643,6 +643,7 @@
     "isLandingPage": "no",
     "modeBlack": "no",
     "showQuantity": "NO",
+     "resume": "false",
     "couleur": "",
     "taille": "",
     "remisePopup": "no, 10",
