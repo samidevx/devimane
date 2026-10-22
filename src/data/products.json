@@ -812,20 +812,20 @@
   },
   {
     "id": "porte",
-    "title": "✨ PORTEFEUILLE Premium 2026",
-    "price":  19900,
+    "title": "✨ PORTEFEUILLE Premium 2027",
+    "price":  21000,
     "priceOld": 29000,
     "currency": "FCFA",
     "category": "montres",
     "stock": "30",
     "code": "COD25342",
     "whatsapp": "213776904334",
-    "pays": "TD",
-    "bundle": "no",
+    "pays": "GA",
+    "bundle": "yes",
      "offres": [
-      { "qty": 1, "price": 21000, "oldPrice": 29000, "title": "🥉 1 PORTEFEUILLE Premium 2026 " },
-      { "qty": 2, "price": 32900, "oldPrice": 42000, "title": "🥈 ⭐ 2 PORTEFEUILLE Premium 2026" },
-      { "qty": 3, "price": 45000, "oldPrice": 58000, "title": "🥇 ⭐ 3 PORTEFEUILLE Premium 2026" }
+      { "qty": 1, "price": 21000, "oldPrice": 29000, "title": "🥉 1 PORTEFEUILLE Premium 2027" },
+      { "qty": 2, "price": 34900, "oldPrice": 42000, "title": "🥈 ⭐ 2 PORTEFEUILLES Premium 2027" }
+     
     ],
     "countdown": "NO",
     "animated": "yes",
