@@ -1,15 +1,15 @@
 [
   {
     "id": "kine",
-    "title": "🚨🚨 PROMO !!! Dispositif Clinique : Kiné-sciatique™ - Ceinture de soutien pour la hanche – Soulagement de la sciatique",
-    "price": 18900,
+    "title": "Dispositif Clinique : Kiné-sciatique™ - Ceinture de soutien pour la hanche – Soulagement de la sciatique",
+    "price": 17900,
     "priceOld": 29900,
-    "currency": "CFA",
+    "currency": "FCFA",
     "category": "Électronique",
     "stock": "25",
     "code": "COD05813",
     "whatsapp": "213776904334",
-    "pays": "SN,BF,ML",
+    "pays": "SN,BF,GA",
     "bundle": "no",
     "offres": [
       { "qty": 1, "price": 22500, "oldPrice": 29900, "title": "1 Exemplaire (Offre Découverte)" },
@@ -24,7 +24,7 @@
     "resume": "false",
     "couleur": "",
     "taille": "",
-    "remisePopup": "NO, 5",
+    "remisePopup": "YES, 5",
      "socialPopup": "yes",
     "reviews": "4220",
     "featuredImage": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEis5y1pjtHIFjmiBdS9vxixvQlMRx06Un1DKtCUvQ3KZmfXV04P5VZ-3TvObPkU3oSXLNEMqK4FCQolKiHc_YUXYh0nSKIHGuagwUjSGlJmBDtYE7o_Tq5Us3AWYnpryIEAkDytALyYuCnE8RRJOSVSWmAyoaPsyNAE8oZFHcQqNkqdOEpVq95DDTO_eyY/s1600/ChatGPT%20Image%20Sep%2016,%202026,%2012_16_00%20AM%20%281%29.png",
