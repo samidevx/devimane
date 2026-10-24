@@ -289,6 +289,105 @@ const renderHome = () => {
     setupGlobalEvents();
 };
 
+const getDefaultFAQ = (p) => [
+    {
+        q: "Comment passer ma commande sur le site ?",
+        a: "C'est très simple et rapide ! Il vous suffit de remplir le formulaire ci-dessus avec votre <strong>Nom</strong>, votre <strong>Numéro de Téléphone</strong> et votre <strong>Ville / Adresse</strong>, puis de cliquer sur <strong>« Valider Ma Commande »</strong>. Notre équipe vous contacte immédiatement par appel téléphonique ou WhatsApp pour confirmer les détails de la livraison avant l'expédition."
+    },
+    {
+        q: "Quand et comment s'effectue le paiement ?",
+        a: "<strong>Vous ne payez rien à l'avance !</strong> Le paiement s'effectue à <strong>100% à la livraison (Cash on Delivery)</strong>. Vous réglez directement en espèces au livreur au moment où vous recevez et vérifiez votre colis en main propre."
+    },
+    {
+        q: "Quels sont les délais et les frais de livraison ?",
+        a: "La livraison est <strong>100% GRATUITE</strong> sans aucun frais caché ni mauvaise surprise. Votre colis est expédié en express et livré directement à votre domicile ou à votre lieu de travail sous <strong>24h à 48h ouvrables</strong>. Le livreur vous appelle toujours avant de se déplacer."
+    },
+    {
+        q: "Puis-je ouvrir et vérifier le produit avant de payer ?",
+        a: "<strong>Oui, absolument !</strong> La confiance et la transparence sont nos priorités. À l'arrivée du livreur, vous avez parfaitement le droit d'ouvrir le colis et de vous assurer de la qualité et de la conformité du produit avant de remettre l'argent."
+    },
+    {
+        q: "Que faire si le produit ne correspond pas ou présente un défaut ?",
+        a: "Vous bénéficiez d'une <strong>Garantie Satisfait ou Remboursé sous 7 à 14 jours</strong>. Si le produit reçu présente le moindre problème ou ne correspond pas à vos attentes, contactez notre service client : nous procédons immédiatement à un <strong>échange gratuit</strong> ou à un remboursement complet."
+    },
+    {
+        q: "Comment contacter le service client en cas de besoin ?",
+        a: "Notre service client est à votre écoute <strong>7j/7 par WhatsApp et par téléphone</strong> pour toute question, suivi de commande ou conseil d'utilisation. Cliquez sur le bouton WhatsApp en bas de page pour échanger en direct avec un conseiller."
+    }
+];
+
+const renderFAQ = (p) => {
+    const faqList = (Array.isArray(p.faq) && p.faq.length > 0) ? p.faq : getDefaultFAQ(p);
+    return `
+        <section class="prod-faq" id="faq-section" aria-labelledby="faq-section-ttl">
+            <div class="faq-header">
+                <h2 class="section-ttl" id="faq-section-ttl">
+                    <i class="fa fa-circle-question"></i> Questions Fréquemment Posées
+                </h2>
+                <p class="faq-subtitle">Toutes les réponses à vos questions pour commander en toute tranquillité et confiance.</p>
+            </div>
+
+            <div class="faq-trust-strip">
+                <div class="faq-strip-item">
+                    <i class="fa fa-truck-fast"></i>
+                    <span>Livraison Gratuite 24-48h</span>
+                </div>
+                <div class="faq-strip-item">
+                    <i class="fa fa-hand-holding-dollar"></i>
+                    <span>Paiement Cash à la Réception</span>
+                </div>
+                <div class="faq-strip-item">
+                    <i class="fa fa-arrow-rotate-left"></i>
+                    <span>Garantie Satisfait ou Remboursé</span>
+                </div>
+            </div>
+
+            <div class="faq-accordion" id="faqAccordion">
+                ${faqList.map((item, index) => {
+                    const qText = item.q || item.question || '';
+                    const aText = item.a || item.answer || item.reponse || '';
+                    const isOpen = index === 0;
+                    return `
+                        <div class="faq-item ${isOpen ? 'active' : ''}" data-faq-index="${index}">
+                            <button type="button" class="faq-btn" id="faq-btn-${index}" aria-expanded="${isOpen ? 'true' : 'false'}" aria-controls="faq-ans-${index}">
+                                <span class="faq-q-text">
+                                    <span class="faq-q-num">Q${index + 1}</span>
+                                    <span class="faq-q-title">${qText}</span>
+                                </span>
+                                <span class="faq-icon-wrap" aria-hidden="true">
+                                    <i class="fa fa-chevron-down"></i>
+                                </span>
+                            </button>
+                            <div class="faq-answer" id="faq-ans-${index}" role="region" aria-labelledby="faq-btn-${index}">
+                                <div class="faq-answer-inner">
+                                    <p>${aText}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+
+            <div class="faq-footer-cta">
+                <div class="faq-cta-text">
+                    <strong>Une autre question avant de commander ?</strong>
+                    <span>Notre équipe est disponible 7j/7 pour vous conseiller et vous accompagner.</span>
+                </div>
+                <div class="faq-cta-btns">
+                    ${p.whatsapp ? `
+                    <a href="https://wa.me/${p.whatsapp.replace(/\+/g, '')}?text=${encodeURIComponent(`Bonjour, j'ai une question concernant le produit : ${p.title}`)}" target="_blank" rel="noopener" class="faq-btn-wa">
+                        <i class="fab fa-whatsapp"></i> Poser une question sur WhatsApp
+                    </a>
+                    ` : ''}
+                    <a href="#orderFormBlock" class="faq-btn-order" id="faqOrderBtn">
+                        <i class="fa fa-cart-shopping"></i> Passer ma commande
+                    </a>
+                </div>
+            </div>
+        </section>
+    `;
+};
+
 const renderProduct = (p) => {
     state.currentProduct = p;
     state.price = p.price;
@@ -597,6 +696,8 @@ const renderProduct = (p) => {
                 <h2 class="section-ttl"><i class="fa fa-file-lines"></i> Description</h2>
                 <div id="d-desc-content"><div class="desc-placeholder" style="height:200px;background:var(--gray-100);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--gray-400)"><i class="fa fa-image" style="font-size:32px"></i></div></div>
             </div>` : ''}
+
+            ${renderFAQ(p)}
 
         </main>
         
@@ -1800,6 +1901,50 @@ const setupProductEvents = (p) => {
                 content_category: 'Customer Service'
             });
         };
+    }
+
+    // --- FAQ ACCORDION EVENTS ---
+    const faqContainer = document.getElementById('faqAccordion');
+    if (faqContainer) {
+        faqContainer.querySelectorAll('.faq-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                if (!item) return;
+                const isCurrentlyActive = item.classList.contains('active');
+
+                // Single-accordion mode: close other items for clear readability
+                faqContainer.querySelectorAll('.faq-item').forEach(other => {
+                    if (other !== item) {
+                        other.classList.remove('active');
+                        const otherBtn = other.querySelector('.faq-btn');
+                        if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+
+                if (isCurrentlyActive) {
+                    item.classList.remove('active');
+                    btn.setAttribute('aria-expanded', 'false');
+                } else {
+                    item.classList.add('active');
+                    btn.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+    }
+
+    const faqOrderBtn = document.getElementById('faqOrderBtn');
+    if (faqOrderBtn) {
+        faqOrderBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.getElementById('orderFormBlock');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                setTimeout(() => {
+                    const firstField = target.querySelector('#tel, #nom, input:not([type=hidden])');
+                    if (firstField) firstField.focus();
+                }, 400);
+            }
+        });
     }
 };
 
