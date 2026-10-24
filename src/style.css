@@ -1019,6 +1019,83 @@ body.mode-nuit .site-logo-img {
   border-radius: var(--radius);
 }
 
+/* =========================================================
+   ALL-IMAGES PRODUCT DESCRIPTION (NO GAPS, FULL WIDTH)
+   ========================================================= */
+.prod-desc.desc-all-images {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
+}
+
+.prod-desc.desc-all-images .section-ttl {
+  margin: 0 16px 14px 16px;
+}
+
+.prod-desc.desc-all-images .desc-placeholder {
+  margin: 0 16px 20px 16px;
+}
+
+.prod-desc.desc-all-images #d-desc-content {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  font-size: 0 !important;
+  gap: 0 !important;
+}
+
+.prod-desc.desc-all-images img,
+.prod-desc.desc-all-images p img,
+.prod-desc.desc-all-images div img,
+.prod-desc.desc-all-images a img,
+.prod-desc.desc-all-images img.block-img,
+.prod-desc.desc-all-images .ql-align-center img,
+.prod-desc.desc-all-images #d-desc-content img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  vertical-align: bottom !important;
+  box-shadow: none !important;
+}
+
+.prod-desc.desc-all-images .separator,
+.prod-desc.desc-all-images .separator a,
+.prod-desc.desc-all-images a:has(img),
+.prod-desc.desc-all-images a,
+.prod-desc.desc-all-images p,
+.prod-desc.desc-all-images div:not(.desc-placeholder) {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 0 !important;
+  font-size: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  width: 100% !important;
+}
+
+.prod-desc.desc-all-images br {
+  display: none !important;
+}
+
+.prod-desc.desc-all-images .contact-commande-img,
+.landing-mode-desc .contact-commande-img {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
 
 
 /* Quill Alignment Classes */

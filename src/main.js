@@ -47,6 +47,15 @@ const withContactImage = (desc = '') => {
     return `${desc}<img src="${CONTACT_IMAGE_SRC}" alt="Comment faire la commande ? C'est simple et rapide !" loading="lazy" class="block-img contact-commande-img" />`;
 };
 
+// Check if description consists solely of images (with optional tags/whitespace but no substantive text)
+const isAllImagesDesc = (html = '') => {
+    if (!html || !html.includes('<img')) return false;
+    const withoutComments = html.replace(/<!--[\s\S]*?-->/g, '');
+    const withoutImgs = withoutComments.replace(/<img[^>]*>/gi, '');
+    const textOnly = withoutImgs.replace(/<[^>]+>/g, '').replace(/&nbsp;/gi, ' ').replace(/&#160;/gi, ' ').trim();
+    return textOnly.length === 0;
+};
+
 window.openPolicyModal = (type) => {
     const modal = document.getElementById(`modal-${type}`);
     if (modal) modal.classList.add('open');
@@ -437,7 +446,7 @@ const renderProduct = (p) => {
             </div>
         </header>
         <main class="product-page">
-            ${isLP ? `<div class="prod-desc landing-mode-desc" style="margin-top:0; margin-bottom: 24px;">
+            ${isLP ? `<div class="prod-desc landing-mode-desc ${isAllImagesDesc(p.description) ? 'desc-all-images' : ''}" style="margin-top:0; margin-bottom: 24px;">
                 <div id="d-desc-content">${(() => {
                 let desc = withContactImage(p.description);
                 // For LP, the first image is likely the LCP. Let's make it eager and optimized.
@@ -692,7 +701,7 @@ const renderProduct = (p) => {
                 </div>
             </div>
 
-            ${!isLP ? `<div class="prod-desc">
+            ${!isLP ? `<div class="prod-desc ${isAllImagesDesc(p.description) ? 'desc-all-images' : ''}">
                 <h2 class="section-ttl"><i class="fa fa-file-lines"></i> Description</h2>
                 <div id="d-desc-content"><div class="desc-placeholder" style="height:200px;background:var(--gray-100);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--gray-400)"><i class="fa fa-image" style="font-size:32px"></i></div></div>
             </div>` : ''}
@@ -747,6 +756,9 @@ const renderProduct = (p) => {
         const injectDesc = () => {
             const descEl = document.getElementById('d-desc-content');
             if (!descEl) return;
+            if (isAllImagesDesc(p.description)) {
+                descEl.closest('.prod-desc')?.classList.add('desc-all-images');
+            }
             // Strip competing fetchpriority=high from description images & ensure lazy loading
             let cleanDesc = withContactImage(p.description).replace(/fetchpriority="high"/gi, 'loading="lazy"');
             cleanDesc = cleanDesc.replace(/<img([^>]+)>/gi, (match, attrs) => {
