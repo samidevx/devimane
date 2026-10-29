@@ -723,6 +723,15 @@ const renderProduct = (p) => {
                             <button type="submit" class="submit-btn ${isYes(p.animated) ? 'animated-yes' : ''}" id="submitBtn">
                                 <i class="fa fa-lock"></i> Valider Ma Commande Maintenant
                             </button>
+
+                            <div class="order-divider">
+                                <span>OU DIRECTEMENT</span>
+                            </div>
+
+                            <button type="button" class="btn-wa-order" id="btnWaOrder">
+                                <i class="fa-brands fa-whatsapp"></i>
+                                <span>Commander en 1 Clic sur WhatsApp</span>
+                            </button>
                             <div class="pay-icons" style="margin-top: 16px; gap: 8px;">
                                 <span class="trust-badge"><i class="fa fa-money-bill-wave" style="color: var(--green);"></i> Paiement Cash</span>
                                 <span class="trust-badge"><i class="fa fa-truck-fast" style="color: var(--green);"></i> Livraison Express</span>
