@@ -43,15 +43,7 @@ export const adminApp = {
     render: (navigate) => {
         const app = document.getElementById('app');
         const path = window.location.pathname;
-
-        const orders = JSON.parse(localStorage.getItem('captured_orders') || sessionStorage.getItem('captured_orders') || '[]');
-        const ordersCount = orders.length;
-
-        const isProductsActive = path.startsWith('/admin/products') || path === '/admin';
-        const isOrdersActive = path === '/admin/orders';
-        const isDashboardActive = path === '/admin/dashboard';
-        const isCODActive = path === '/admin/cod';
-
+        const products = adminUtils.getProducts();
         const ghCfg = adminUtils.getGitHubConfig();
 
         app.innerHTML = `
@@ -69,94 +61,15 @@ export const adminApp = {
                     </div>
 
                     <div class="adm-nav-container">
-                        <!-- GENERAL SECTION -->
                         <div class="adm-nav-section">
-                            <div class="adm-nav-section-title">General</div>
+                            <div class="adm-nav-section-title">Navigation</div>
                             <ul class="adm-nav-list">
                                 <li>
-                                    <a class="adm-nav-link ${isDashboardActive ? 'active' : ''}" data-route="/admin/dashboard">
-                                        <i class="fa fa-chart-pie nav-icon"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link ${isOrdersActive ? 'active' : ''}" data-route="/admin/orders">
-                                        <i class="fa fa-bag-shopping nav-icon"></i>
-                                        <span>Orders</span>
-                                        <span class="adm-nav-badge">${ordersCount > 0 ? ordersCount : '414'}</span>
-                                        <i class="fa fa-chevron-right adm-nav-arrow"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link ${isCODActive ? 'active' : ''}" data-route="/admin/cod">
-                                        <i class="fa fa-earth-africa nav-icon"></i>
-                                        <span>COD in Africa</span>
-                                        <span class="adm-nav-badge blue">COD</span>
-                                        <i class="fa fa-chevron-right adm-nav-arrow"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link" data-route="/admin/profit">
-                                        <i class="fa fa-hand-holding-dollar nav-icon"></i>
-                                        <span>Profit & Marges</span>
-                                        <i class="fa fa-chevron-right adm-nav-arrow"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link" data-route="/admin/customers">
-                                        <i class="fa fa-users nav-icon"></i>
-                                        <span>Customers</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link" data-route="/admin/reviews">
-                                        <i class="fa fa-star nav-icon"></i>
-                                        <span>Reviews</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- INVENTORY SECTION -->
-                        <div class="adm-nav-section">
-                            <div class="adm-nav-section-title">Inventory</div>
-                            <ul class="adm-nav-list">
-                                <li>
-                                    <a class="adm-nav-link ${isProductsActive ? 'active' : ''}" data-route="/admin/products">
+                                    <a class="adm-nav-link active" data-route="/admin/products">
                                         <i class="fa fa-cubes nav-icon"></i>
                                         <span>Products</span>
+                                        <span class="adm-nav-badge">${products.length}</span>
                                         <i class="fa fa-chevron-right adm-nav-arrow"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link" data-route="/admin/delivery">
-                                        <i class="fa fa-truck nav-icon"></i>
-                                        <span>Delivery</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- SYSTEM SECTION -->
-                        <div class="adm-nav-section">
-                            <div class="adm-nav-section-title">System</div>
-                            <ul class="adm-nav-list">
-                                <li>
-                                    <a class="adm-nav-link" data-route="/admin/team">
-                                        <i class="fa fa-user-gear nav-icon"></i>
-                                        <span>Team</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link" data-route="/admin/ai">
-                                        <i class="fa fa-wand-magic-sparkles nav-icon"></i>
-                                        <span>AI Agents</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="adm-nav-link" data-route="/admin/api">
-                                        <i class="fa fa-code nav-icon"></i>
-                                        <span>API Reference</span>
                                     </a>
                                 </li>
                             </ul>
@@ -209,21 +122,11 @@ export const adminApp = {
             const product = adminUtils.getProduct(id);
             return adminApp.renderProductForm(product);
         }
-        if (path === '/admin/orders') {
-            return adminApp.renderOrdersView();
-        }
-        if (path === '/admin/dashboard') {
-            return adminApp.renderDashboardView();
-        }
-        if (path === '/admin/cod') {
-            return adminApp.renderCODView();
-        }
-        // Default to products list (Image 1)
         return adminApp.renderProductsList();
     },
 
     // =========================================================================
-    // 1. PRODUCTS LIST VIEW (MATCHING IMAGE 1)
+    // 1. PRODUCTS LIST VIEW
     // =========================================================================
     renderProductsList: () => {
         const products = adminUtils.getProducts();
@@ -759,158 +662,6 @@ export const adminApp = {
                         </button>
                     </div>
                 </form>
-            </div>
-        `;
-    },
-
-    // =========================================================================
-    // 3. DASHBOARD / ORDERS / COD VIEWS
-    // =========================================================================
-    renderDashboardView: () => {
-        const products = adminUtils.getProducts();
-        const orders = JSON.parse(localStorage.getItem('captured_orders') || sessionStorage.getItem('captured_orders') || '[]');
-        const totalRev = orders.reduce((acc, o) => acc + (Number(o.total) || 0), 0);
-
-        return `
-            <div class="adm-header-row">
-                <div class="adm-title-group">
-                    <h1>Dashboard Overview</h1>
-                    <p>Real-time analytics and store performance statistics.</p>
-                </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px;">
-                <div style="background:var(--adm-card); border:1px solid var(--adm-border); border-radius:12px; padding:20px;">
-                    <div style="color:var(--adm-text-dim); font-size:11px; font-weight:700; text-transform:uppercase;">Total Products</div>
-                    <div style="font-size:28px; font-weight:800; color:#fff; margin-top:8px;">${products.length}</div>
-                    <div style="color:#34d399; font-size:12px; margin-top:4px;"><i class="fa fa-circle-check"></i> Catalog active</div>
-                </div>
-                <div style="background:var(--adm-card); border:1px solid var(--adm-border); border-radius:12px; padding:20px;">
-                    <div style="color:var(--adm-text-dim); font-size:11px; font-weight:700; text-transform:uppercase;">Captured Orders</div>
-                    <div style="font-size:28px; font-weight:800; color:#60a5fa; margin-top:8px;">${orders.length}</div>
-                    <div style="color:var(--adm-text-muted); font-size:12px; margin-top:4px;">Cash on Delivery</div>
-                </div>
-                <div style="background:var(--adm-card); border:1px solid var(--adm-border); border-radius:12px; padding:20px;">
-                    <div style="color:var(--adm-text-dim); font-size:11px; font-weight:700; text-transform:uppercase;">Estimated Revenue</div>
-                    <div style="font-size:28px; font-weight:800; color:#a78bfa; margin-top:8px;">${totalRev.toLocaleString()} FCFA</div>
-                    <div style="color:var(--adm-text-muted); font-size:12px; margin-top:4px;">From captured orders</div>
-                </div>
-            </div>
-
-            <div class="adm-table-card">
-                <div style="padding:18px 20px; font-weight:800; border-bottom:1px solid var(--adm-border); font-size:14px;">Recent Catalog Items</div>
-                <table class="adm-table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Home Page</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${products.slice(0, 5).map(p => `
-                            <tr>
-                                <td><img src="${p.featuredImage}" class="adm-prod-img" style="width:36px; height:36px;" /></td>
-                                <td><strong style="color:#fff;">${p.title}</strong></td>
-                                <td>${Number(p.price).toLocaleString()} ${p.currency || 'FCFA'}</td>
-                                <td>${p.stock}</td>
-                                <td><span class="adm-badge adm-badge-visible"><i class="fa fa-eye"></i> Visible</span></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    },
-
-    renderOrdersView: () => {
-        const orders = JSON.parse(localStorage.getItem('captured_orders') || sessionStorage.getItem('captured_orders') || '[]');
-
-        return `
-            <div class="adm-header-row">
-                <div class="adm-title-group">
-                    <h1>Store Orders</h1>
-                    <p>Orders captured via Cash On Delivery form.</p>
-                </div>
-            </div>
-
-            <div class="adm-table-card">
-                <table class="adm-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Customer</th>
-                            <th>Phone</th>
-                            <th>Country / City</th>
-                            <th>Product</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${orders.length === 0 ? `
-                            <tr><td colspan="7" style="text-align:center; padding: 48px; color: var(--adm-text-dim);">No orders received yet.</td></tr>
-                        ` : orders.slice().reverse().map(o => `
-                            <tr>
-                                <td>${new Date().toLocaleDateString()}</td>
-                                <td><strong style="color:#fff;">${o.customer_name || 'Client'}</strong></td>
-                                <td><a href="tel:${o.telephone}" style="color:#60a5fa; text-decoration:none;">${o.telephone || '-'}</a></td>
-                                <td>${o.pays || 'CI'} ${o.commune ? `· ${o.commune}` : ''}</td>
-                                <td>${o.product_name || 'Produit'} (x${o.quantity || 1})</td>
-                                <td><strong style="color:#34d399;">${Number(o.total || 0).toLocaleString()} FCFA</strong></td>
-                                <td><span class="adm-badge adm-badge-visible">Nouvelle Commande</span></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            </div>
-        `;
-    },
-
-    renderCODView: () => {
-        const countries = [
-            { code: 'CI', name: "Côte d'Ivoire", cur: 'FCFA', flag: '🇨🇮', rate: 'Gratuit', status: 'Actif' },
-            { code: 'SN', name: 'Sénégal', cur: 'FCFA', flag: '🇸🇳', rate: 'Gratuit', status: 'Actif' },
-            { code: 'BF', name: 'Burkina Faso', cur: 'FCFA', flag: '🇧🇫', rate: 'Gratuit', status: 'Actif' },
-            { code: 'GN', name: 'Guinée Conakry', cur: 'GNF', flag: '🇬🇳', rate: 'Gratuit', status: 'Actif' },
-            { code: 'CM', name: 'Cameroun', cur: 'FCFA', flag: '🇨🇲', rate: 'Gratuit', status: 'Actif' },
-            { code: 'GA', name: 'Gabon', cur: 'FCFA', flag: '🇬🇦', rate: 'Gratuit', status: 'Actif' },
-            { code: 'ML', name: 'Mali', cur: 'FCFA', flag: '🇲🇱', rate: 'Gratuit', status: 'Actif' }
-        ];
-
-        return `
-            <div class="adm-header-row">
-                <div class="adm-title-group">
-                    <h1>COD in Africa</h1>
-                    <p>Cash on delivery destinations, local currencies, and delivery hubs.</p>
-                </div>
-            </div>
-
-            <div class="adm-table-card">
-                <table class="adm-table">
-                    <thead>
-                        <tr>
-                            <th>Country</th>
-                            <th>ISO Code</th>
-                            <th>Currency</th>
-                            <th>Shipping Cost</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${countries.map(c => `
-                            <tr>
-                                <td><span style="font-size:18px; margin-right:8px;">${c.flag}</span> <strong style="color:#fff;">${c.name}</strong></td>
-                                <td><span class="adm-sku-code">${c.code}</span></td>
-                                <td><strong style="color:#a78bfa;">${c.cur}</strong></td>
-                                <td>${c.rate}</td>
-                                <td><span class="adm-badge adm-badge-visible">${c.status}</span></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
             </div>
         `;
     },
