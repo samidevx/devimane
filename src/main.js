@@ -762,7 +762,7 @@ const renderProduct = (p) => {
         <div class="sticky-bar">
             <a class="sticky-order" href="#orderFormBlock" style="${(p['whatsapp-sticky'] ?? 'on').toString().toLowerCase() === 'off' ? 'width: 100%;' : ''}"><i class="fa fa-shopping-basket"></i> Commander</a>
             ${(p['whatsapp-sticky'] ?? 'on').toString().toLowerCase() !== 'off' && p.whatsapp ? `
-            <a aria-label="WhatsApp" class="sticky-wa" href="https://wa.me/${p.whatsapp.replace(/\+/g, '')}?text=${encodeURIComponent(`Bonjour, je souhaite commander : ${p.title}\nLien : ${window.location.origin + window.location.pathname}`)}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a aria-label="WhatsApp" class="sticky-wa" href="https://wa.me/${(p.whatsapp || '2250701825463').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Bonjour, je souhaite commander : \n${p.title}\n${window.location.origin + window.location.pathname}\n(Livraison Gratuite)\nMerci de me donner les détails pour la livraison rapide !`)}" target="_blank"><i class="fab fa-whatsapp"></i></a>
             ` : ''}
         </div>
 
@@ -1154,41 +1154,25 @@ const setupProductEvents = (p) => {
             const nom = document.getElementById('nom')?.value.trim() || '';
             const tel = document.getElementById('tel')?.value.trim() || '';
             const adr = document.getElementById('adr')?.value.trim() || '';
-            const paysSelect = document.getElementById('pays');
-            const pays = paysSelect ? (paysSelect.options[paysSelect.selectedIndex]?.text || '') : '';
-            const couleur = document.getElementById('var-couleur')?.value || '';
-            const taille = document.getElementById('var-taille')?.value || '';
 
-            let offerDesc = `${state.quantity} exemplaire(s)`;
-            const activeBundle = document.querySelector('.bundle-opt.active');
-            if (state.isBundle && activeBundle) {
-                offerDesc = activeBundle.dataset.title || offerDesc;
-            }
-
-            const totalAmt = state.isBundle ? state.price : state.price * state.quantity;
-            const totalStr = `${fmtPrice(totalAmt)} ${p.currency}`;
-
-            let msg = `Bonjour, je souhaite commander :\n` +
-                      `📦 *${p.title}*\n` +
-                      `🎁 Offre : *${offerDesc}*\n` +
-                      `💰 Montant : *${totalStr}* (Livraison Gratuite)\n`;
-
-            if (couleur) msg += `🎨 Couleur : ${couleur}\n`;
-            if (taille) msg += `📏 Taille : ${taille}\n`;
+            const prodUrl = window.location.href;
+            let msg = `Bonjour, je souhaite commander : \n` +
+                      `${p.title}\n` +
+                      `${prodUrl}\n` +
+                      `(Livraison Gratuite)\n` +
+                      `Merci de me donner les détails pour la livraison rapide !`;
 
             if (nom || tel || adr) {
-                msg += `\n👤 *Mes coordonnées :*\n`;
+                msg += `\n\nMes coordonnées :\n`;
                 if (nom) msg += `- Nom : ${nom}\n`;
                 if (tel) msg += `- Téléphone : ${tel}\n`;
-                if (adr) msg += `- Adresse / Ville : ${adr}\n`;
-                if (pays) msg += `- Pays : ${pays}\n`;
-            } else {
-                msg += `\nMerci de me donner les détails pour la livraison rapide !`;
+                if (adr) msg += `- Adresse : ${adr}\n`;
             }
 
-            const waNum = (p.whatsapp || '2250701825463').replace(/\+/g, '').replace(/\s+/g, '');
+            const waNum = (p.whatsapp || '2250701825463').replace(/[^0-9]/g, '');
             const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
 
+            const totalAmt = state.isBundle ? state.price : state.price * state.quantity;
             firePixel('Contact', {
                 content_name: p.title,
                 value: totalAmt,
