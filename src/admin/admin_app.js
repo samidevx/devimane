@@ -938,7 +938,7 @@ export const adminApp = {
         const logoutBtn = document.getElementById('admLogoutBtn');
         if (logoutBtn) {
             logoutBtn.onclick = () => {
-                sessionStorage.removeItem('admin_auth');
+                adminUtils.logout();
                 navigate('/admin/login');
             };
         }
@@ -1401,6 +1401,39 @@ export const adminApp = {
                     </div>
                 </div>
 
+                <!-- SÉCURITÉ & MOT DE PASSE -->
+                <div style="background:#090d16; border:1px solid #1f2b42; border-radius:10px; padding:16px; margin-bottom:20px;">
+                    <div style="font-size:12px; font-weight:800; color:#fff; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+                        <i class="fa fa-shield-halved" style="color:var(--adm-purple-light);"></i>
+                        <span>Sécurité & Mot de Passe Admin</span>
+                    </div>
+
+                    <div class="adm-field-group" style="margin-bottom: 12px;">
+                        <label class="adm-label">Mot de passe actuel</label>
+                        <input type="password" class="adm-input" id="cfgOldPass" placeholder="Mot de passe actuel (par défaut: admin123)" />
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom: 12px;">
+                        <div class="adm-field-group">
+                            <label class="adm-label">Nouveau mot de passe</label>
+                            <input type="password" class="adm-input" id="cfgNewPass" placeholder="Min. 6 caractères" />
+                        </div>
+                        <div class="adm-field-group">
+                            <label class="adm-label">Confirmer mot de passe</label>
+                            <input type="password" class="adm-input" id="cfgConfirmPass" placeholder="Confirmer" />
+                        </div>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; flex-wrap:wrap; gap:8px;">
+                        <small style="color:var(--adm-text-dim); font-size:11px;">
+                            <i class="fa fa-lock"></i> Crypté en SHA-256 avec sel (aucun mot de passe en clair).
+                        </small>
+                        <button type="button" class="adm-btn adm-btn-secondary" id="btnUpdatePassword" style="font-size:12px; padding:6px 14px;">
+                            <i class="fa fa-key"></i> Changer le mot de passe
+                        </button>
+                    </div>
+                </div>
+
                 <div class="adm-field-group" style="margin-bottom: 24px;">
                     <label class="adm-label">Réinitialiser les données</label>
                     <button type="button" class="adm-btn adm-btn-ghost" id="btnResetDefaultCatalog" style="color:var(--adm-red); border-color:rgba(239,68,68,0.4); margin-top:6px;">
@@ -1419,6 +1452,37 @@ export const adminApp = {
         const close = () => overlay.remove();
         overlay.querySelector('#modalCloseSettingsBtn').onclick = close;
         overlay.onclick = (e) => { if (e.target === overlay) close(); };
+
+        // Update Password
+        overlay.querySelector('#btnUpdatePassword').onclick = async () => {
+            const oldPass = overlay.querySelector('#cfgOldPass').value;
+            const newPass = overlay.querySelector('#cfgNewPass').value;
+            const confirmPass = overlay.querySelector('#cfgConfirmPass').value;
+
+            if (!oldPass) {
+                alert('Veuillez entrer votre mot de passe actuel.');
+                return;
+            }
+            if (!newPass || newPass.length < 6) {
+                alert('Le nouveau mot de passe doit comporter au moins 6 caractères.');
+                return;
+            }
+            if (newPass !== confirmPass) {
+                alert('Les nouveaux mots de passe ne correspondent pas.');
+                return;
+            }
+
+            const res = await adminUtils.changePassword(oldPass, newPass);
+            if (res.success) {
+                overlay.querySelector('#cfgOldPass').value = '';
+                overlay.querySelector('#cfgNewPass').value = '';
+                overlay.querySelector('#cfgConfirmPass').value = '';
+                alert('✅ Mot de passe modifié avec succès !\nVotre mot de passe est désormais sécurisé avec un hachage SHA-256.');
+                showToast('Mot de passe mis à jour !', 'success');
+            } else {
+                alert('❌ Erreur : ' + res.error);
+            }
+        };
 
         // Save Settings
         overlay.querySelector('#modalSaveSettingsBtn').onclick = () => {

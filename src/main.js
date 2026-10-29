@@ -25,7 +25,7 @@ let state = {
     initiateCheckoutFired: false,
     lastAbandonedStr: "",
     igIndex: 0,
-    isAdmin: sessionStorage.getItem('admin_auth') === 'true'
+    get isAdmin() { return adminUtils.isAuthenticated(); }
 };
 
 // --- UTILS ---
@@ -201,7 +201,7 @@ const router = () => {
             renderAdminLogin();
             return;
         }
-        if (!state.isAdmin) {
+        if (!adminUtils.isAuthenticated()) {
             navigate('/admin/login');
             return;
         }
@@ -923,7 +923,7 @@ const renderAdminLogin = () => {
                         <input type="password" id="adminPass" required placeholder="Mot de passe (admin123)" style="width: 100%; background: #090d16; border: 1px solid #222f49; border-radius: 8px; padding: 12px 14px; font-size: 14px; color: #fff; outline: none; box-sizing: border-box;" />
                     </div>
 
-                    <button type="submit" style="width: 100%; background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);">
+                    <button type="submit" id="loginSubmitBtn" style="width: 100%; background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);">
                         Se connecter
                     </button>
 
@@ -935,15 +935,29 @@ const renderAdminLogin = () => {
         </div>
     `;
 
-    document.getElementById('loginForm').onsubmit = (e) => {
+    const loginError = document.getElementById('loginError');
+    const submitBtn = document.getElementById('loginSubmitBtn');
+    const lockSec = adminUtils.getLockoutSeconds();
+    if (lockSec > 0) {
+        loginError.style.display = 'block';
+        loginError.innerHTML = '<i class="fa fa-lock"></i> Accès temporairement bloqué. Réessayez dans ' + lockSec + ' secondes.';
+        if (submitBtn) submitBtn.disabled = true;
+    }
+
+    document.getElementById('loginForm').onsubmit = async (e) => {
         e.preventDefault();
-        const pass = document.getElementById('adminPass').value;
-        if (pass === 'admin123') {
-            sessionStorage.setItem('admin_auth', 'true');
-            state.isAdmin = true;
+        const passInput = document.getElementById('adminPass');
+        const pass = passInput.value;
+        const res = await adminUtils.login(pass);
+        if (res.success) {
             navigate('/admin/products');
         } else {
-            document.getElementById('loginError').style.display = 'block';
+            loginError.style.display = 'block';
+            loginError.innerHTML = '<i class="fa fa-circle-exclamation"></i> ' + res.message;
+            passInput.value = '';
+            if (res.locked && submitBtn) {
+                submitBtn.disabled = true;
+            }
         }
     };
 };

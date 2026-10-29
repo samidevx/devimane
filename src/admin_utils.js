@@ -7,6 +7,25 @@ const DEFAULT_REPO = 'samidevx/devimane';
 const DEFAULT_BRANCH = 'main';
 const DEFAULT_PATH = 'src/data/products.json';
 
+// --- AUTH & PASSWORD SECURITY ---
+const AUTH_SALT = '_x10_store_secure_salt_2026_';
+// SHA-256 salted hash of initial default 'admin123'
+const DEFAULT_PASS_HASH = 'feb4bc5695b1cffe2cbf58d5bfdd5a942515d6bbb40e54ecae184e4268ccc6ad';
+const HASH_STORAGE_KEY = 'store_admin_pass_hash_v1';
+const FAILED_ATTEMPTS_KEY = 'store_admin_failed_attempts';
+const LOCKOUT_KEY = 'store_admin_lockout_time';
+const SESSION_KEY = 'store_admin_auth_session';
+
+// One-way SHA-256 cryptographic hashing with Salt
+const hashPassword = async (pass) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(pass + AUTH_SALT);
+    const hashBuf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuf))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+};
+
 // Helper to safely load products from localStorage or fall back to products.json
 const loadProducts = () => {
     try {
@@ -41,7 +60,126 @@ export const adminUtils = {
         return currentProducts.find(p => p.id === id) || null;
     },
 
-    // GitHub Settings helpers
+    // =========================================================================
+    // AUTHENTICATION & PASSWORD SECURITY
+    // =========================================================================
+
+    // Check if user has an active authenticated session
+    isAuthenticated: () => {
+        try {
+            const raw = sessionStorage.getItem(SESSION_KEY);
+            if (!raw) return false;
+            const session = JSON.parse(raw);
+            if (session.expiresAt && Date.now() < session.expiresAt) {
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    },
+
+    // Get remaining lockout time in seconds
+    getLockoutSeconds: () => {
+        const lockoutTime = Number(localStorage.getItem(LOCKOUT_KEY) || 0);
+        const remaining = Math.ceil((lockoutTime - Date.now()) / 1000);
+        return remaining > 0 ? remaining : 0;
+    },
+
+    // Verify password & login (with rate limiting / brute force prevention)
+    login: async (inputPass) => {
+        // 1. Check if user is locked out
+        const lockSec = adminUtils.getLockoutSeconds();
+        if (lockSec > 0) {
+            return {
+                success: false,
+                locked: true,
+                message: `Trop de tentatives erronées. Réessayez dans ${lockSec} secondes.`
+            };
+        }
+
+        // 2. Hash input and compare with stored hash
+        const inputHash = await hashPassword(inputPass);
+        const targetHash = localStorage.getItem(HASH_STORAGE_KEY) || DEFAULT_PASS_HASH;
+
+        if (inputHash === targetHash) {
+            // Success: Reset failed attempts and set 24h expiration session
+            localStorage.removeItem(FAILED_ATTEMPTS_KEY);
+            localStorage.removeItem(LOCKOUT_KEY);
+            const session = {
+                authenticated: true,
+                createdAt: Date.now(),
+                expiresAt: Date.now() + 24 * 60 * 60 * 1000 // 24 hours
+            };
+            sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+            sessionStorage.setItem('admin_auth', 'true');
+            return { success: true };
+        } else {
+            // Failed attempt: increment counter
+            let attempts = Number(localStorage.getItem(FAILED_ATTEMPTS_KEY) || 0) + 1;
+            localStorage.setItem(FAILED_ATTEMPTS_KEY, String(attempts));
+
+            if (attempts >= 5) {
+                // Lock out for 5 minutes
+                const lockoutUntil = Date.now() + 5 * 60 * 1000;
+                localStorage.setItem(LOCKOUT_KEY, String(lockoutUntil));
+                return {
+                    success: false,
+                    locked: true,
+                    message: '5 tentatives incorrectes consécutives. Accès bloqué pendant 5 minutes.'
+                };
+            }
+
+            const remaining = 5 - attempts;
+            return {
+                success: false,
+                locked: false,
+                remainingAttempts: remaining,
+                message: `Mot de passe incorrect. Il vous reste ${remaining} tentative${remaining > 1 ? 's' : ''}.`
+            };
+        }
+    },
+
+    // Logout
+    logout: () => {
+        sessionStorage.removeItem(SESSION_KEY);
+        sessionStorage.removeItem('admin_auth');
+    },
+
+    // Change Password
+    changePassword: async (oldPass, newPass) => {
+        if (!newPass || newPass.length < 6) {
+            return {
+                success: false,
+                error: 'Le nouveau mot de passe doit comporter au moins 6 caractères.'
+            };
+        }
+
+        const oldHash = await hashPassword(oldPass);
+        const currentHash = localStorage.getItem(HASH_STORAGE_KEY) || DEFAULT_PASS_HASH;
+
+        if (oldHash !== currentHash) {
+            return {
+                success: false,
+                error: 'L\'ancien mot de passe est incorrect.'
+            };
+        }
+
+        const newHash = await hashPassword(newPass);
+        localStorage.setItem(HASH_STORAGE_KEY, newHash);
+        return {
+            success: true,
+            newHash: newHash,
+            message: 'Mot de passe sécurisé et mis à jour avec succès !'
+        };
+    },
+
+    // Helper to generate hash for custom code setting
+    generateHash: async (pass) => {
+        return await hashPassword(pass);
+    },
+
+    // =========================================================================
+    // GITHUB SETTINGS & SYNC
+    // =========================================================================
     getGitHubConfig: () => {
         return {
             repo: localStorage.getItem(GITHUB_REPO_KEY) || DEFAULT_REPO,
@@ -136,7 +274,7 @@ export const adminUtils = {
             console.error('Failed to write products to localStorage:', e);
         }
 
-        // 1. Try local dev-server endpoint (which automatically does `git commit && git push origin main`)
+        // 1. Try local dev-server endpoint
         try {
             const res = await fetch('/api/save-products', {
                 method: 'POST',
@@ -155,7 +293,7 @@ export const adminUtils = {
                 }
             }
         } catch (e) {
-            // Local dev server not reachable (e.g. running on GitHub Pages)
+            // Local dev server not reachable
         }
 
         // 2. If running on GitHub Pages or local git push failed, use GitHub REST API directly
