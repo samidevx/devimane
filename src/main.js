@@ -562,27 +562,6 @@ const renderProduct = (p) => {
                         <p>Remplissez le formulaire ci-dessous</p>
                     </div>
                     <div class="order-body">
-                        <div class="delivery-estimate-card">
-                            <div class="dec-header">
-                                <span class="dec-pulse"></span>
-                                <span class="dec-title"><i class="fa fa-truck-fast"></i> Livraison Express 24h - 48h Gratuite</span>
-                                <span class="dec-badge">En stock</span>
-                            </div>
-                            <div class="dec-body">
-                                <div class="dec-date-row">
-                                    <i class="fa fa-calendar-check dec-cal-icon"></i>
-                                    <div>
-                                        <span class="dec-sub">Chez vous entre le :</span>
-                                        <strong class="dec-range">${delivDates.start} et le ${delivDates.end}</strong>
-                                    </div>
-                                </div>
-                                <div class="dec-features">
-                                    <div class="dec-feat-item"><i class="fa fa-circle-check"></i> Colis ouvert et vérifié avant paiement</div>
-                                    <div class="dec-feat-item"><i class="fa fa-hand-holding-dollar"></i> 100% Paiement Cash au livreur</div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div id="countdown-container" style="${isYes(p.countdown) ? '' : 'display:none'}">
                              <div class="countdown-wrap">
                                  <div class="countdown-title">🔥 Fin de l'offre dans :</div>
@@ -741,11 +720,24 @@ const renderProduct = (p) => {
                     </div>
                 </div>
 
-                <div class="guar-card">
-                    <div class="guar-icon"><i class="fa fa-shield-halved"></i></div>
-                    <div class="guar-text">
-                        <h3>Garantie Satisfaction</h3>
-                        <p>Si vous n'êtes pas satisfait, nous vous remboursons dans les 7 jours.</p>
+                <div class="delivery-estimate-card">
+                    <div class="dec-header">
+                        <span class="dec-pulse"></span>
+                        <span class="dec-title"><i class="fa fa-truck-fast"></i> Livraison Express 24h - 48h Gratuite</span>
+                        <span class="dec-badge">En stock</span>
+                    </div>
+                    <div class="dec-body">
+                        <div class="dec-date-row">
+                            <i class="fa fa-calendar-check dec-cal-icon"></i>
+                            <div>
+                                <span class="dec-sub">Chez vous entre le :</span>
+                                <strong class="dec-range">${delivDates.start} et le ${delivDates.end}</strong>
+                            </div>
+                        </div>
+                        <div class="dec-features">
+                            <div class="dec-feat-item"><i class="fa fa-circle-check"></i> Colis ouvert et vérifié avant paiement</div>
+                            <div class="dec-feat-item"><i class="fa fa-hand-holding-dollar"></i> 100% Paiement Cash au livreur</div>
+                        </div>
                     </div>
                 </div>
             </div>

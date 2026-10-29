@@ -3674,7 +3674,7 @@ body.mode-nuit .policy-modal-content strong {
   border: 1.5px solid #bbf7d0;
   border-radius: 12px;
   padding: 14px 18px;
-  margin-bottom: 20px;
+  margin-bottom: 0;
   box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
 }
 
