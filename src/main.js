@@ -399,6 +399,22 @@ const renderFAQ = (p) => {
     `;
 };
 
+const getDeliveryDates = () => {
+    const now = new Date();
+    const start = new Date(now);
+    start.setDate(now.getDate() + 1);
+    const end = new Date(now);
+    end.setDate(now.getDate() + 2);
+
+    const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    const months = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+
+    return {
+        start: `${days[start.getDay()]} ${start.getDate()} ${months[start.getMonth()]}`,
+        end: `${days[end.getDay()]} ${end.getDate()} ${months[end.getMonth()]}`
+    };
+};
+
 const renderProduct = (p) => {
     state.currentProduct = p;
     state.price = p.price;
@@ -407,6 +423,7 @@ const renderProduct = (p) => {
     state.isBundle = false;
     state.igIndex = 0;
     const isLP = isYes(p.isLandingPage);
+    const delivDates = getDeliveryDates();
 
     // LP Body Classes
     if (isLP) document.body.classList.add('lp-mode-active');
@@ -545,6 +562,27 @@ const renderProduct = (p) => {
                         <p>Remplissez le formulaire ci-dessous</p>
                     </div>
                     <div class="order-body">
+                        <div class="delivery-estimate-card">
+                            <div class="dec-header">
+                                <span class="dec-pulse"></span>
+                                <span class="dec-title"><i class="fa fa-truck-fast"></i> Livraison Express 24h - 48h Gratuite</span>
+                                <span class="dec-badge">En stock</span>
+                            </div>
+                            <div class="dec-body">
+                                <div class="dec-date-row">
+                                    <i class="fa fa-calendar-check dec-cal-icon"></i>
+                                    <div>
+                                        <span class="dec-sub">Chez vous entre le :</span>
+                                        <strong class="dec-range">${delivDates.start} et le ${delivDates.end}</strong>
+                                    </div>
+                                </div>
+                                <div class="dec-features">
+                                    <div class="dec-feat-item"><i class="fa fa-circle-check"></i> Colis ouvert et vérifié avant paiement</div>
+                                    <div class="dec-feat-item"><i class="fa fa-hand-holding-dollar"></i> 100% Paiement Cash au livreur</div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="countdown-container" style="${isYes(p.countdown) ? '' : 'display:none'}">
                              <div class="countdown-wrap">
                                  <div class="countdown-title">🔥 Fin de l'offre dans :</div>
@@ -1098,6 +1136,58 @@ const setupProductEvents = (p) => {
     if (lead.nom) {
         const nomInput = document.getElementById('nom');
         if (nomInput && !nomInput.value) nomInput.value = lead.nom;
+    }
+
+    // --- 1-CLICK WHATSAPP ORDER ---
+    const btnWaOrder = document.getElementById('btnWaOrder');
+    if (btnWaOrder) {
+        btnWaOrder.onclick = () => {
+            const nom = document.getElementById('nom')?.value.trim() || '';
+            const tel = document.getElementById('tel')?.value.trim() || '';
+            const adr = document.getElementById('adr')?.value.trim() || '';
+            const paysSelect = document.getElementById('pays');
+            const pays = paysSelect ? (paysSelect.options[paysSelect.selectedIndex]?.text || '') : '';
+            const couleur = document.getElementById('var-couleur')?.value || '';
+            const taille = document.getElementById('var-taille')?.value || '';
+
+            let offerDesc = `${state.quantity} exemplaire(s)`;
+            const activeBundle = document.querySelector('.bundle-opt.active');
+            if (state.isBundle && activeBundle) {
+                offerDesc = activeBundle.dataset.title || offerDesc;
+            }
+
+            const totalAmt = state.isBundle ? state.price : state.price * state.quantity;
+            const totalStr = `${fmtPrice(totalAmt)} ${p.currency}`;
+
+            let msg = `Bonjour, je souhaite commander :\n` +
+                      `📦 *${p.title}*\n` +
+                      `🎁 Offre : *${offerDesc}*\n` +
+                      `💰 Montant : *${totalStr}* (Livraison Gratuite)\n`;
+
+            if (couleur) msg += `🎨 Couleur : ${couleur}\n`;
+            if (taille) msg += `📏 Taille : ${taille}\n`;
+
+            if (nom || tel || adr) {
+                msg += `\n👤 *Mes coordonnées :*\n`;
+                if (nom) msg += `- Nom : ${nom}\n`;
+                if (tel) msg += `- Téléphone : ${tel}\n`;
+                if (adr) msg += `- Adresse / Ville : ${adr}\n`;
+                if (pays) msg += `- Pays : ${pays}\n`;
+            } else {
+                msg += `\nMerci de me donner les détails pour la livraison rapide !`;
+            }
+
+            const waNum = (p.whatsapp || '2250701825463').replace(/\+/g, '').replace(/\s+/g, '');
+            const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
+
+            firePixel('Contact', {
+                content_name: p.title,
+                value: totalAmt,
+                currency: p.currency === 'CFA' ? 'XOF' : p.currency
+            });
+
+            window.open(waUrl, '_blank');
+        };
     }
 
     // --- PAYS AUTO-SELECT ---

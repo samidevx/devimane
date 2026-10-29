@@ -3663,3 +3663,248 @@ body.mode-nuit .policy-modal-content strong {
   margin: 24px auto !important;
   border-radius: 12px;
 }
+
+/* ==========================================================================
+   CRO FEATURES: DELIVERY ESTIMATE, WHATSAPP ORDER, TRUST GUARANTEE
+   ========================================================================== */
+
+/* 1. Delivery Estimate Widget */
+.delivery-estimate-card {
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
+}
+
+body.mode-nuit .delivery-estimate-card {
+  background: #0f1d24;
+  border-color: #1a4237;
+}
+
+.dec-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.dec-pulse {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-dot 1.8s infinite;
+}
+
+@keyframes pulse-dot {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 7px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+.dec-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #065f46;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+body.mode-nuit .dec-title {
+  color: #34d399;
+}
+
+.dec-badge {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #15803d;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+body.mode-nuit .dec-badge {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+}
+
+.dec-date-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.dec-cal-icon {
+  font-size: 22px;
+  color: #10b981;
+}
+
+.dec-sub {
+  font-size: 12px;
+  color: var(--gray-600);
+  display: block;
+}
+
+body.mode-nuit .dec-sub {
+  color: #94a3b8;
+}
+
+.dec-range {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+body.mode-nuit .dec-range {
+  color: #f8fafc;
+}
+
+.dec-features {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(16, 185, 129, 0.25);
+  font-size: 12px;
+  color: var(--gray-700);
+  font-weight: 600;
+}
+
+body.mode-nuit .dec-features {
+  color: #cbd5e1;
+}
+
+.dec-feat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dec-feat-item i {
+  color: #10b981;
+  font-size: 12px;
+}
+
+/* 2. Trust Commitment Card */
+.trust-guarantee-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-left: 4px solid #10b981;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+body.mode-nuit .trust-guarantee-card {
+  background: #0f172a;
+  border-color: #1e293b;
+  border-left-color: #10b981;
+}
+
+.tgc-icon {
+  font-size: 20px;
+  color: #10b981;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.tgc-text strong {
+  display: block;
+  font-size: 13px;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+
+body.mode-nuit .tgc-text strong {
+  color: #f8fafc;
+}
+
+.tgc-text p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--gray-600);
+  line-height: 1.4;
+}
+
+body.mode-nuit .tgc-text p {
+  color: #94a3b8;
+}
+
+/* 3. WhatsApp Direct Order Button & Divider */
+.order-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 16px 0 12px 0;
+}
+
+.order-divider::before,
+.order-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+body.mode-nuit .order-divider::before,
+body.mode-nuit .order-divider::after {
+  border-bottom-color: #1e293b;
+}
+
+.order-divider span {
+  padding: 0 12px;
+  color: var(--gray-400);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.btn-wa-order {
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+  color: #ffffff !important;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--fh);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: .02em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 8px 24px -4px rgba(37, 211, 102, 0.45);
+  transition: transform var(--ease), box-shadow var(--ease);
+  text-decoration: none;
+  user-select: none;
+  margin-bottom: 8px;
+}
+
+.btn-wa-order:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -4px rgba(37, 211, 102, 0.6);
+  color: #ffffff !important;
+}
+
+.btn-wa-order i {
+  font-size: 22px;
+}
