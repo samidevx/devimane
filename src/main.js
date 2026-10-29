@@ -754,7 +754,7 @@ const renderProduct = (p) => {
         <div class="sticky-bar">
             <a class="sticky-order" href="#orderFormBlock" style="${(p['whatsapp-sticky'] ?? 'on').toString().toLowerCase() === 'off' ? 'width: 100%;' : ''}"><i class="fa fa-shopping-basket"></i> Commander</a>
             ${(p['whatsapp-sticky'] ?? 'on').toString().toLowerCase() !== 'off' && p.whatsapp ? `
-            <a aria-label="WhatsApp" class="sticky-wa" href="https://wa.me/${(p.whatsapp || '2250701825463').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Bonjour, je souhaite commander : \n${p.title}\n${window.location.origin + window.location.pathname}\n(Livraison Gratuite)\nMerci de me donner les détails pour la livraison rapide !`)}" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a aria-label="WhatsApp" class="sticky-wa" href="https://wa.me/${(p.whatsapp || '2250701825463').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Bonjour, je souhaite commander : \n${p.title}\n${window.location.origin + window.location.pathname}`)}" target="_blank"><i class="fab fa-whatsapp"></i></a>
             ` : ''}
         </div>
 
@@ -1148,18 +1148,7 @@ const setupProductEvents = (p) => {
             const adr = document.getElementById('adr')?.value.trim() || '';
 
             const prodUrl = window.location.href;
-            let msg = `Bonjour, je souhaite commander : \n` +
-                      `${p.title}\n` +
-                      `${prodUrl}\n` +
-                      `(Livraison Gratuite)\n` +
-                      `Merci de me donner les détails pour la livraison rapide !`;
-
-            if (nom || tel || adr) {
-                msg += `\n\nMes coordonnées :\n`;
-                if (nom) msg += `- Nom : ${nom}\n`;
-                if (tel) msg += `- Téléphone : ${tel}\n`;
-                if (adr) msg += `- Adresse : ${adr}\n`;
-            }
+            const msg = `Bonjour, je souhaite commander : \n${p.title}\n${prodUrl}`;
 
             const waNum = (p.whatsapp || '2250701825463').replace(/[^0-9]/g, '');
             const waUrl = `https://wa.me/${waNum}?text=${encodeURIComponent(msg)}`;
