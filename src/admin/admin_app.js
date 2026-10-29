@@ -1432,7 +1432,7 @@ export const adminApp = {
         // Test GitHub Connection
         overlay.querySelector('#btnTestGitHubSync').onclick = async () => {
             const token = overlay.querySelector('#cfgGhToken').value.trim();
-            const repo = overlay.querySelector('#cfgGhRepo').value.trim() || 'samidevx/Africa-Shop-Goo';
+            const repo = overlay.querySelector('#cfgGhRepo').value.trim() || 'samidevx/devimane';
 
             if (!token) {
                 alert('Veuillez entrer un GitHub Token pour tester.');

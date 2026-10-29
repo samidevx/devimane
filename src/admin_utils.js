@@ -3,7 +3,7 @@ import defaultProducts from './data/products.json';
 const STORAGE_KEY = 'store_products_data_v2';
 const GITHUB_TOKEN_KEY = 'store_admin_github_token';
 const GITHUB_REPO_KEY = 'store_admin_github_repo';
-const DEFAULT_REPO = 'samidevx/Africa-Shop-Goo';
+const DEFAULT_REPO = 'samidevx/devimane';
 const DEFAULT_BRANCH = 'main';
 const DEFAULT_PATH = 'src/data/products.json';
 
