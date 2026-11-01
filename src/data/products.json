@@ -1340,7 +1340,7 @@
     "stock": "30",
     "code": "COD25342",
     "whatsapp": "213776904334",
-    "pays": "GA",
+    "pays": "GA,TD",
     "bundle": "yes",
     "offres": [
       {
@@ -1380,7 +1380,7 @@
     "shippingCost": null,
     "homePage": "no",
     "displayHomePage": "no",
-    "reviewsSection": "yes",
+    "reviewsSection": "no",
     "socialPopup": "yes"
   },
   {
