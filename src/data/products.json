@@ -2,14 +2,14 @@
   {
     "id": "montre-luxe-copy",
     "title": "✨ MSTIANQ™ Montre Homme Élégante – Style Premium, Bracelet Confort & Affichage Date (Copie)",
-    "price": 19900,
-    "priceOld": 29000,
-    "currency": "FCFA",
+    "price": 310000,
+    "priceOld": null,
+    "currency": "GNF",
     "category": "montres",
-    "stock": "30",
-    "code": "COD25204-C",
+    "stock": "80",
+    "code": "COD25204",
     "whatsapp": "213776904334",
-    "pays": "TD,CI,GA,ML,SN",
+    "pays": "GN",
     "bundle": "no",
     "offres": [
       {
@@ -35,7 +35,7 @@
     "animated": "yes",
     "isLandingPage": "no",
     "modeBlack": "no",
-    "showQuantity": "no",
+    "showQuantity": "yes",
     "resume": "true",
     "couleur": "Bleu,Noir",
     "taille": "",
@@ -55,7 +55,7 @@
     "shippingCost": null,
     "homePage": "no",
     "displayHomePage": "no",
-    "reviewsSection": "yes",
+    "reviewsSection": "no",
     "socialPopup": "yes"
   },
   {
